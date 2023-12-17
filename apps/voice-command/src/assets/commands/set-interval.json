@@ -1,0 +1,82 @@
+[
+    {
+        "command": "set-interval",
+        "texto": "Set interval from 08:00 to 10:00",
+        "activatedBetween": {
+            "dateIni": 28800000,
+            "dateEnd": 36000000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Routine active from 14:00 to 16:30",
+        "activatedBetween": {
+            "dateIni": 50400000,
+            "dateEnd": 59400000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Interval set from morning 07:00 to noon 12:00",
+        "activatedBetween": {
+            "dateIni": 25200000,
+            "dateEnd": 43200000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Active period from 18:00 to 20:00",
+        "activatedBetween": {
+            "dateIni": 64800000,
+            "dateEnd": 72000000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Routine operates from 10:30 to 13:00",
+        "activatedBetween": {
+            "dateIni": 37800000,
+            "dateEnd": 46800000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Set activity window from 15:00 to 17:45",
+        "activatedBetween": {
+            "dateIni": 54000000,
+            "dateEnd": 63900000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Set interval from 9 AM to 11 AM",
+        "activatedBetween": {
+            "dateIni": 32400000,
+            "dateEnd": 39600000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Routine active from 2 PM to 4:30 PM",
+        "activatedBetween": {
+            "dateIni": 50400000,
+            "dateEnd": 59400000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Interval set from evening 6 PM to night 10 PM",
+        "activatedBetween": {
+            "dateIni": 64800000,
+            "dateEnd": 79200000
+        }
+    },
+    {
+        "command": "set-interval",
+        "texto": "Active period from 7:30 AM to 10 AM",
+        "activatedBetween": {
+            "dateIni": 27000000,
+            "dateEnd": 36000000
+        }
+    }
+]
