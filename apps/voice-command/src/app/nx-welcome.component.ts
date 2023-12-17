@@ -429,7 +429,7 @@ import { CommonModule } from '@angular/common';
     <div class="wrapper">
       <div class="container">
         <!--  WELCOME  -->
-        <div id="welcome">
+        <div class="text-3xl font-bold underline">
           <h1>
             <span> Hello there, </span>
             Welcome voice-command 👋
