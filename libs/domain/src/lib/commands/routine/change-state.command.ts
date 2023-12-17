@@ -5,17 +5,13 @@ export class ChangeStateCommand implements ICommands {
     name: string;
     entityType: 'commands';
     description: string;
-    actionString: string;
     constructor() {
         this.name = "change-state";
         this.entityType = 'commands';
         this.description = 'isEnabled property in routine changed';
-        this.actionString = `(isEnabled: boolean, routine: RoutineEntity) => {
-            routine.name = name;
-        }`;
     }
-    action(isEnabled: boolean, routine: RoutineEntity) {
-        routine.isEnabled = isEnabled;
-        console.log(" change-state command executed: ", routine);
+    action(params : {isEnabled: boolean, routine: RoutineEntity}) {
+        params.routine.isEnabled = params.isEnabled;
+        console.log(" change-state command executed: ", params.routine);
     }
 }

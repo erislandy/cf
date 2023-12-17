@@ -3,5 +3,5 @@ export interface ICommands {
     name: string;
     entityType: 'commands',
     description: string;
-    actionString: string;
+    action(params: object): void;
 }

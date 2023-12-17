@@ -1,15 +1,10 @@
 [
     {
-        "name": "set-name",
-        "entityType": "commands",
-        "description": "Set name",
-        "action":"(name: string, routine: RoutineEntity) => {\n    routine.name = name;\n    console.log(\" set-name command executed: \", routine);\n}"
+        "command": "set-name",
+        "texto": "Set name to HOUSE 1 MIST GROUP 1"
     },
     {
-        "name": "change-state",
-        "entityType": "commands",
-        "description": "isEnabled property in routine changed",
-        "action":"(isEnabled: boolean, routine: RoutineEntity) => {\n    routine.isEnabled = isEnabled;\n    console.log(\" change-state command executed: \", routine);\n}"
+        "command": "set-name",
+        "texto": "The name of routine is HOUSE 1 MIST GROUP 1"
     }
-    
 ]

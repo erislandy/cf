@@ -1,0 +1,26 @@
+[
+    {
+        "command": "change-state",
+        "texto": "Enable the routine for next week"
+    },
+    {
+        "command": "change-state",
+        "texto": "Disable this routine temporarily"
+    },
+    {
+        "command": "change-state",
+        "texto": "Set routine state to active"
+    },
+    {
+        "command": "change-state",
+        "texto": "Turn off the current routine for maintenance"
+    },
+    {
+        "command": "change-state",
+        "texto": "Activate the selected routine starting tomorrow"
+    },
+    {
+        "command": "change-state",
+        "texto": "Deactivate routine during vacation period"
+    }
+]
