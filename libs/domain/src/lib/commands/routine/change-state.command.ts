@@ -1,9 +1,9 @@
-import { ICommands } from "../../interfaces";
+import { IRoutineCommands } from "../../interfaces";
 import { RoutineEntity } from "../../models";
 
-export class ChangeStateCommand implements ICommands {
+export class ChangeStateCommand implements IRoutineCommands {
     name: string;
-    entityType: 'commands';
+    entityType: string;
     description: string;
     constructor() {
         this.name = "change-state";
@@ -12,6 +12,6 @@ export class ChangeStateCommand implements ICommands {
     }
     action(params : {isEnabled: boolean, routine: RoutineEntity}) {
         params.routine.isEnabled = params.isEnabled;
-        console.log(" change-state command executed: ", params.routine);
+        return params.routine;
     }
 }

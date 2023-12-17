@@ -1,9 +1,9 @@
-import { ICommands } from "../../interfaces";
+import { IRoutineCommands } from "../../interfaces";
 import { RoutineEntity } from "../../models";
 
-export class SetNameCommand implements ICommands {
+export class SetNameCommand implements IRoutineCommands {
     name: string;
-    entityType: 'commands';
+    entityType: string;
     description: string;
     constructor() {
         this.name = "set-name";
@@ -12,7 +12,7 @@ export class SetNameCommand implements ICommands {
     }
     action(params : {name: string, routine: RoutineEntity}) {
         params.routine.name = params.name;
-        console.log(" set-name command executed: ", params.routine);
+        return params.routine;
     }
 }
 

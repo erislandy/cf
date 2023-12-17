@@ -1,9 +1,9 @@
-import { ICommands } from "../../interfaces";
+import { IRoutineCommands } from "../../interfaces";
 import { RoutineEntity } from "../../models";
 
-export class GetRoutineByNameCommand implements ICommands {
+export class GetRoutineByNameCommand implements IRoutineCommands {
     name: string;
-    entityType: 'commands';
+    entityType: string;
     description: string;
     constructor() {
         this.name = "get-routine-by-name";

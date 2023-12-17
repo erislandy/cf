@@ -1,1 +1,1 @@
-export * from "./interface-command";
+export * from "./routine-command";
