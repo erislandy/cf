@@ -2,7 +2,10 @@
   "name": "@cf/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "voice-command:start":"npx nx run voice-command:serve",
+    "voice-command:build":"npx nx run voice-command:build"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~17.0.0",

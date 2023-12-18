@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cf/domain": ["libs/domain/src/index.ts"]
+      "@cf/domain": ["libs/domain/src/index.ts"],
+      "@cf/shared": ["libs/shared/src/index.ts"],
+      "@cf/web": ["libs/web/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
