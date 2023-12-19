@@ -1,1 +1,31 @@
-<p>custom-tabs works!</p>
+<div class="flex flex-col justify-start sm:flex-row sm:justify-center gap-2">  
+  
+  @for (routineStep of routineSteps; track $index) {
+    <cf-custom-tabs-item 
+      [featherIcon]="routineStep.featherIcon"       
+      [titleItem]="routineStep.title" 
+      [subTitleItem]="routineStep.subTitle" 
+      [activeState]="{
+        bgColor: 'bg-indigo-500', 
+        iconColor: 'text-gray-300',
+        titleColor: 'text-indigo-500',
+        subTitleColor: 'text-gray-500'
+      }"
+      [defaultState]="{
+        bgColor: 'bg-gray-700', 
+        iconColor: 'text-gray-300',
+        titleColor: 'text-gray-300',
+        subTitleColor: 'text-gray-500'
+      }"
+      [isActive]="routineStep.isActive"
+      (click)="onTabClick($index)"
+     >
+    </cf-custom-tabs-item>
+    @if($index < routineSteps.length - 1){
+      
+      <div class="hidden items-center justify-center sm:flex">
+        <cf-svg-loader imageId="chevron-left" [currentClass]="'text-gray-300'" />
+      </div>
+    }
+  }
+</div>

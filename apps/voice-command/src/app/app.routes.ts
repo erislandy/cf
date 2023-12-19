@@ -10,7 +10,7 @@ export const appRoutes: Route[] = [
                 loadComponent: () => import("@cf/web").then(m => m.RoutineListComponent),
             },
             {
-                path: 'routine-details/:id',
+                path: 'routine/:id',
                 loadComponent: () => import("@cf/web").then(m => m.RoutineDetailsComponent),
             },
             {
