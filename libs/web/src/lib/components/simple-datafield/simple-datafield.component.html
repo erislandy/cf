@@ -1,0 +1,22 @@
+<div class="w-full flex justify-between dataFields-center">
+    <div class="flex flex-col justify-start dataFields-start mt-1">
+      <span
+        class="h-3 w-3 border-0 bg-indigo-500 flex justify-center dataFields-center text-center rounded-full shadow-lg shadow-indigo-100"
+      ></span>
+      <div class="ml-1.5 h-16 w-[1px] bg-gray-600 -mb-3"></div>
+    </div>
+    <div class="flex justify-start dataFields-center w-full px-3">
+      <div class="w-32">
+        <span class="text-gray-500 text-xs"
+          >{{dataField.label}}
+          @if(dataField.required){
+          <span class="text-red-400">*</span>
+          }
+        </span>
+      </div>
+
+      <span class="text-gray-300">{{dataField.value}}</span>
+    </div>
+    <cf-svg-loader imageId="play" currentClass="text-gray-300" />
+  </div>
+

@@ -1,0 +1,25 @@
+<div class="w-full flex justify-between items-center">
+    <div class="flex flex-col justify-start items-start mt-1">
+      <span
+        class="h-3 w-3 border-0 bg-indigo-500 flex justify-center items-center text-center rounded-full shadow-lg shadow-indigo-100"
+      ></span>
+      <div class="ml-1.5 h-16 w-[1px] bg-gray-500 -mb-3"></div>
+    </div>
+    <div class="flex justify-start items-center w-full px-3">
+      <div class="w-32">
+        <span class="text-gray-500 text-xs"
+          >{{dataField.label}}
+        </span>
+      </div>
+      <div class="flex flex-col justify-start items-start">
+        @for(v of dataField.value; track $index){
+
+          <div class="text-gray-300">{{v}}</div>
+          @if($index < dataField.value.length - 1 && dataField.value.length > 1){
+            <div class="text-gray-500 text-xs">And</div>
+          }
+        }
+      </div>
+    </div>
+    <cf-svg-loader imageId="play" currentClass="text-gray-300" />
+  </div>  

@@ -1,58 +1,40 @@
-<section class="pt-3 h-full flex flex-col justify-start items-center">
+<section class="relative pt-3 h-[90vh] flex flex-col justify-start items-center">
   <cf-custom-tabs [tabs]="routineSteps" (tabsChanged)="onTabsChanged($event)" />
+  
+  <!--Tab content-->
   <div
     id="voice-commands"
-    class="mt-3 h-full flex flex-col justify-between items-center w-full gap-3"
+    class="mt-3 h-full flex flex-col 
+          justify-between items-center 
+          w-full gap-3"
   >
     <div
-      class="p-4 bg-gray-800 rounded-lg shadow-xs dark:bg-gray-800 w-full min-w-[200px] max-w-2xl"
+      class="p-4 bg-gray-800 rounded-lg 
+            shadow-xs dark:bg-gray-800 w-full 
+            min-w-[200px] max-w-2xl"
     >
-      <h4 class="mb-4 font-semibold text-gray-300 dark:text-gray-300">
-        Information
+      <h4 class="mb-4 font-semibold text-gray-300
+               dark:text-gray-300">
+        {{currentTab.title}}
       </h4>
 
-      <div class="flex flex-col justify-center items-start">
-        @for (item of infoFields; track item.command) {
-            <div class="w-full flex justify-between items-center">
-                <div class="flex flex-col justify-start items-start mt-1">
-                  <span
-                    class="h-3 w-3 border-0 bg-indigo-500 flex justify-center items-center text-center rounded-full shadow-lg shadow-indigo-100"
-                  ></span>
-                  <div class="ml-1.5 h-16 w-[1px] bg-gray-600 -mb-3"></div>
-                </div>
-                <div class="flex justify-start items-center w-full px-3">
-                  <div class="w-40">
-                    <span class="text-gray-600"
-                      >Name: <span class="text-red-400">*</span></span
-                    >
-                  </div>
-      
-                  <span class="text-gray-300">Test 1</span>
-                </div>
-                <cf-svg-loader imageId="play" currentClass="text-gray-300" />
-              </div>   
+      <div class="flex flex-col">
+        @for (item of currentTab.tabContent; track item.command) {
+          @if(item.type === 'simple'){
+            <cf-simple-datafield [dataField]="item"/>
+          }
+          @if(item.type === 'group'){
+            <cf-group-datafield [dataField]="item"/>    
+          }
+        
         }
-            
       </div>
     </div>
-    <div
-      class="border border-gray-600 l h-10 rounded-md px-3 py-1 w-[90vw] max-w-2xl overflow-x-auto whitespace-nowrap"
-    >
-      <span class="text-gray-300"
-        >The name of routine was the last name of but jdfhjdhsfhj kdfkljkldj
-        lsfjjk dskjfdklj
-      </span>
-    </div>
   </div>
+  <!--End Tab content-->
 
-  <div
-    class="absolute bottom-0 mb-4 h-20 w-20 border border-indigo-300 flex justify-center items-center rounded-full"
-  >
-    <cf-svg-loader
-      imageId="mic-off"
-      currentClass="text-gray-300"
-      [width]="30"
-      [height]="30"
-    />
-  </div>
+  <!--Voice Manager-->
+  <cf-voice-manager/>
+  <!--End voice Manager-->
+  
 </section>
