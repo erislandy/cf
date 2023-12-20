@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomTabsComponent, TabItem } from '@cf/shared';
+import { SvgLoaderComponent } from '@cf/shared';
 
 @Component({
   selector: 'cf-routine-details',
   standalone: true,
-  imports: [CommonModule, CustomTabsComponent],
+  imports: [CommonModule, CustomTabsComponent, SvgLoaderComponent],
   templateUrl: './routine-details.component.html',
   styleUrl: './routine-details.component.scss',
 })
@@ -14,17 +15,17 @@ export class RoutineDetailsComponent {
     {
       title: 'Information',
       featherIcon: 'info',
-      subTitle: 'Add info and conditions',
+      subTitle: 'Info and conditions',
     },
     {
       title: 'Triggers',
       featherIcon: 'git-branch',
-      subTitle: 'Simple/Groups of sensors',
+      subTitle: 'Sensor setpoint',
     },
     {
       title: 'Actions',
       featherIcon: 'git-merge',
-      subTitle: 'Simple/Groups of actuators',
+      subTitle: 'Actuator commands',
     },
     {
       title: 'Notifictions',
@@ -33,6 +34,7 @@ export class RoutineDetailsComponent {
     }
 
   ]
+  infoFields: Array
 
   onTabsChanged(selectedTabIndex: number) {
     console.log({selectedTab: this.routineSteps[selectedTabIndex]});
