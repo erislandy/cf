@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { CustomTabsComponent, TabItem, VoiceManagerComponent } from '@cf/shared';
 import { SvgLoaderComponent } from '@cf/shared';
 import { DataFieldCommand } from '../../ui-models';
-import { SimpleDatafieldComponent } from '../../components';
+import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
+import { actuators, getInitialData, sensors } from './mock-data';
 
 @Component({
   selector: 'cf-routine-details',
@@ -15,7 +16,8 @@ import { GroupDatafieldComponent } from '../../components/group-datafield/group-
     SvgLoaderComponent,
     SimpleDatafieldComponent,
     GroupDatafieldComponent,
-    VoiceManagerComponent
+    VoiceManagerComponent,
+    DevicesComponent
   ],
   templateUrl: './routine-details.component.html',
   styleUrl: './routine-details.component.scss',
@@ -58,87 +60,25 @@ export class RoutineDetailsComponent {
     title: string;
     tabContent: Array<DataFieldCommand>
   };
+  sensors: Array<{
+    id: string;
+    nodeRedId: string;
+    name: string;
+    selected: boolean;
+  }> = [];
+  actuators: Array<{
+    id: string;
+    nodeRedId: string;
+    name: string;
+    selected: boolean;
+  }> = [];
 
   constructor() {
-    this.infoFields = [
-      {
-        command: 'set-name',
-        required: true,
-        label: 'Name: ',
-        value: 'Routine 1',
-        state: 'valid',
-        type: 'simple'
-      },
-      {
-        command: 'set-enabled',
-        required: true,
-        label: 'State: ',
-        value: 'Active',
-        state: 'valid',
-        type: 'simple'
-      },
-      {
-        command: 'set-repetition-days',
-        required: false,
-        label: 'Active Days: ',
-        value: 'Mon, Tue, Sat, Sun',
-        state: 'invalid',
-        type: 'simple'
-      },
-      {
-        command: 'set-interval',
-        required: false,
-        label: 'Interval: ',
-        value: '8:00 AM to 9:00 AM',
-        state: 'pending',
-        type: 'simple'
-      },
-      {
-        command: 'set-supress-for',
-        required: false,
-        label: 'Supress for: ',
-        value: '5 minutes',
-        state: 'disabled',
-        type: 'simple'
-      },
-    ];
-    this.triggerFields = [
-      {
-        command: 'trigger-settings',
-        required: false,
-        label: 'Trigger settings: ',
-        type: 'group',
-        value: ['Temperature zone-1 above 50F', 'Humidity above 80%'],
-        state: 'valid',
-      },
-    ];
-    this.actionFields = [
-      {
-        command: 'action-settings',
-        required: false,
-        label: 'Trigger settings: ',
-        type: 'group',
-        value: ['curtain z2 is Open', 'valve 1 zone 2 is On'],
-        state: 'valid',
-      },
-    ];
-    this.notificationFields = [
-      {
-        command: 'enable-notification',
-        required: false,
-        label: 'State: ',
-        type: 'simple',
-        value: 'Disabled',
-        state: 'valid',
-      },
-      {
-        command: 'set-notification',
-        required: false,
-        label: 'Email notification: ',
-        type: 'group',
-        value: ['Push notifications', 'Email notifications'],
-        state: 'valid',
-    }];
+    const data = getInitialData();
+    this.infoFields =  data.infoFields as DataFieldCommand[];
+    this.triggerFields = data.triggerFields as DataFieldCommand[];
+    this.actionFields = data.actionFields as DataFieldCommand[];
+    this.notificationFields = data.notificationFields as DataFieldCommand[];
     this.routineFields = [
       {
         key: 'info',
@@ -162,6 +102,8 @@ export class RoutineDetailsComponent {
       },
     ]
     this.currentTab = this.routineFields[0];
+    this.sensors = sensors;
+    this.actuators = actuators;
   }
 
   onTabsChanged(selectedTabIndex: number) {

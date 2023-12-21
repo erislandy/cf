@@ -1,0 +1,26 @@
+<div
+    class="p-4 bg-gray-800 rounded-lg 
+            shadow-xs dark:bg-gray-800 w-full
+            min-w-[200px] max-w-2xl">
+    <h4 class="mb-4 font-semibold text-gray-300
+               dark:text-gray-300">
+        {{deviceType}}
+    </h4>
+    <div class="h-[25vh] flex flex-col justify-start items-stretch overflow-auto custom-scrollbar">
+        
+        @for (item of devices; track $index) {
+            <div class="border border-gray-700 min-h-[50px] flex justify-start items-center px-3">
+
+                @if(item.selected){
+                    <div class="h-5 w-5 bg-indigo-500 rounded flex justify-center items-center">
+                        <cf-svg-loader imageId="check" [width]="16" [height]="16" currentClass="text-gray-300"/>
+                    </div>
+                }@else {
+                    <div class="h-5 w-5 border border-gray-600 rounded"></div>
+                }                
+                <span class="text-gray-300 ml-8">{{item.name}}</span>
+            </div>
+        } 
+    
+      </div>
+</div>

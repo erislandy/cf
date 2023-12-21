@@ -9,12 +9,19 @@
   </span>
 </div>
 <div
-  class="h-20 w-20 border border-indigo-300 mt-3
-  flex justify-center items-center rounded-full"
+  class="h-20 w-20 border  mt-3
+  flex justify-center items-center rounded-full cursor-pointer"
+  [ngClass]="{ 
+    'bg-indigo-300': state === 'active',
+    'border-indigo-300': state === 'inactive', 
+    'bg-indigo-200 animate-bounce pointer-events-none': state === 'loading',
+    'border-indigo-300 bg-indigo-400 shadow-2xl animate-pulse': state === 'talking',
+    }"
+    (click)="stateChangedHandler(state)"
 >
   <cf-svg-loader
-    imageId="mic-off"
-    currentClass="text-gray-300"
+    [imageId]="state === 'inactive' || state === 'loading' ? 'mic-off' : 'mic'"
+    [currentClass]="state === 'inactive' ? 'text-gray-300' : 'text-indigo-900'"
     [width]="30"
     [height]="30"
   />

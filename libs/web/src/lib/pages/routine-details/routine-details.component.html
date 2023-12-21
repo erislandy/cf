@@ -5,14 +5,13 @@
   <div
     id="voice-commands"
     class="mt-3 h-full flex flex-col 
-          justify-between items-center 
+          justify-center items-center 
           w-full gap-3"
   >
     <div
       class="p-4 bg-gray-800 rounded-lg 
             shadow-xs dark:bg-gray-800 w-full 
-            min-w-[200px] max-w-2xl"
-    >
+            min-w-[200px] max-w-2xl">
       <h4 class="mb-4 font-semibold text-gray-300
                dark:text-gray-300">
         {{currentTab.title}}
@@ -30,6 +29,13 @@
         }
       </div>
     </div>
+    @if(currentTab.key === 'trigger' || currentTab.key === 'action'){
+      <cf-devices 
+        [devices]="currentTab.key === 'trigger' ? sensors : actuators" 
+        [deviceType]="currentTab.key === 'trigger' ? 'Sensors' : 'Actuators'"
+
+        class="w-full flex justify-center"/>
+    }
   </div>
   <!--End Tab content-->
 
