@@ -1,3 +1,4 @@
+
 export const getInitialData = () => ({
     infoFields: [
         {
@@ -166,4 +167,217 @@ export const actuators: Array<{
         "id": "fae2b9d3-aa3f-4e8c-935f-0aef6db2e08c",
         selected: false,
     }
+]
+
+export const routines = [
+  {
+      "id": "2b5592b6-d11b-42ca-a3ee-d22cd2eb75b3",
+      "priority": 126,
+      "name": "HOUSE 1 MIST GROUP 1",
+      "triggers": [],
+      "actions": [
+          {
+              "triggerState": {
+                  "description": "H-1 BAY-1 DIEFF (Group) on Sequential On/Off"
+              },
+              "isGroup": true,
+              "group": {
+                  "id": "9eb204c5-67f0-4011-a6d7-1839765d3532"
+              },
+              "device": {},
+              "entityType": "actuators"
+          }
+      ],
+      "condition": {
+          "activated": true,
+          "activeDays": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+          ],
+          "activatedBetween": {
+              "dateEnd": 1691098200000,
+              "dateIni": 1691069580000
+          },
+          "suppressFor": 5
+      },
+      "isEnabled": true,
+      "notification": {
+          "isActivated": false,
+          "notificationMessage": "H-1 BAY-1 DIEFF executed"
+      },
+      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
+      "entityType": "routines"
+  },
+  {
+      "id": "681f510a-9fe8-4bc3-be65-f8e7a4675346",
+      "priority": 125,
+      "name": "HOUSE 1 MIST GROUP 2",
+      "triggers": [],
+      "actions": [
+          {
+              "triggerState": {
+                  "description": "HOUSE 1 MIST GROUP 2 (Group) on Same Time"
+              },
+              "isGroup": true,
+              "group": {
+                  "id": "9d7866e8-eb45-496b-ab2c-c2bd49b7adc7"
+              },
+              "device": {},
+              "entityType": "actuators"
+          }
+      ],
+      "condition": {
+          "activated": true,
+          "activeDays": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+          ],
+          "activatedBetween": {
+              "dateEnd": 1691447460000,
+              "dateIni": 1691415060000
+          },
+          "suppressFor": 5
+      },
+      "isEnabled": true,
+      "notification": {
+          "isActivated": false,
+          "notificationMessage": "HOUSE 1 GROUP 2 executed"
+      },
+      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
+      "entityType": "routines"
+  },
+  {
+      "id": "4c4cb084-b7e8-4e06-9287-a34c09689544",
+      "priority": 124,
+      "name": "HOUSE 1 MIST GROUP 3",
+      "triggers": [],
+      "actions": [
+          {
+              "triggerState": {
+                  "description": "HOUSE 1 MIST GROUP 3 (Group) on Sequential On/Off"
+              },
+              "isGroup": true,
+              "group": {
+                  "id": "7a651838-171e-41f5-9c52-dc571cb6f361"
+              },
+              "device": {},
+              "entityType": "actuators"
+          }
+      ],
+      "condition": {
+          "activated": true,
+          "activeDays": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+          ],
+          "activatedBetween": {
+              "dateEnd": 1691533800000,
+              "dateIni": 1691501520000
+          },
+          "suppressFor": 5
+      },
+      "isEnabled": true,
+      "notification": {
+          "isActivated": false,
+          "notificationMessage": "HOUSE 1 MIST GROUP 3 executed"
+      },
+      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
+      "entityType": "routines"
+  },
+  {
+      "id": "b175d9f1-f389-4572-ae0f-b866d662c56e",
+      "priority": 123,
+      "name": "HOUSE 1 MIST GROUP 4",
+      "triggers": [],
+      "actions": [
+          {
+              "triggerState": {
+                  "description": "HOUSE 1 MIST GROUP 4 (Group) on Sequential On/Off"
+              },
+              "isGroup": true,
+              "group": {
+                  "id": "3324475c-e26f-4294-b578-bc075b4171f8"
+              },
+              "device": {},
+              "entityType": "actuators"
+          }
+      ],
+      "isEnabled": false,
+      "condition": {
+          "activated": true,
+          "activeDays": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+          ],
+          "activatedBetween": {
+              "dateEnd": 1694727000000,
+              "dateIni": 1694698500000
+          },
+          "suppressFor": 5
+      },
+      "notification": {
+          "isActivated": false,
+          "notificationMessage": "HOUSE 1 MIST GROUP 4 executed"
+      },
+      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
+      "entityType": "routines"
+  },
+  {
+      "id": "ff68e86d-5d49-4e03-a673-65333551f758",
+      "priority": 122,
+      "name": "HOUSE 1 BAY 1",
+      "triggers": [],
+      "actions": [
+          {
+              "triggerState": {
+                  "mode": 1,
+                  "description": "Valve_Z1-1 is ON"
+              },
+              "isGroup": false,
+              "device": {
+                  "id": "8ec6e59a-7de4-4f35-a9f8-1ca22c853027"
+              },
+              "group": {},
+              "entityType": "actuators"
+          }
+      ],
+      "condition": {
+          "activated": true,
+          "activeDays": [
+              2
+          ],
+          "activatedBetween": {
+              "dateEnd": 1694033940000,
+              "dateIni": 1694033460000
+          },
+          "suppressFor": 5
+      },
+      "isEnabled": false,
+      "notification": {
+          "isActivated": false,
+          "notificationMessage": "HOUSE 1 BAY 1 executed"
+      },
+      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
+      "entityType": "routines"
+  }
 ]

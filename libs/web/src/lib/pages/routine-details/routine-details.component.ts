@@ -16,7 +16,6 @@ import { actuators, getInitialData, sensors } from './mock-data';
     SvgLoaderComponent,
     SimpleDatafieldComponent,
     GroupDatafieldComponent,
-    VoiceManagerComponent,
     DevicesComponent
   ],
   templateUrl: './routine-details.component.html',
@@ -40,7 +39,7 @@ export class RoutineDetailsComponent {
       subTitle: 'Actuator commands',
     },
     {
-      title: 'Notifictions',
+      title: 'Notifications',
       featherIcon: 'bell',
       subTitle: 'Email, SMS and Push',
     },
