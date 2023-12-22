@@ -86,6 +86,7 @@ export const sensors: Array<{
     nodeRedId: string;
     name: string;
     selected: boolean;
+    isGroup: boolean;
   }> = [
     {
       name: 'Temperature Z1',
@@ -93,6 +94,7 @@ export const sensors: Array<{
       nodeRedId:
         'costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#temperature_z1',
       selected: true,
+        isGroup: false,
     },
     {
       name: 'Temperature Z2',
@@ -100,6 +102,7 @@ export const sensors: Array<{
       nodeRedId:
         'costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#temperature_z2',
         selected: false,
+        isGroup: false,
     },
 
     {
@@ -108,6 +111,7 @@ export const sensors: Array<{
       nodeRedId:
         'costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#temperature_z3',
         selected: false,
+        isGroup: false,
     },
 
     {
@@ -116,6 +120,7 @@ export const sensors: Array<{
       nodeRedId:
         'costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#temperature_z4',
         selected: false,
+        isGroup: false,
     },
 
     {
@@ -123,6 +128,7 @@ export const sensors: Array<{
       id: 'cda2cfcd-efb0-4ee4-ad07-d3a68bd40d4f',
       nodeRedId: 'costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#humidity_z1',
       selected: true,
+      isGroup: false,
     },
   ];
 export const actuators: Array<{
@@ -130,11 +136,13 @@ export const actuators: Array<{
     nodeRedId: string;
     name: string;
     selected: boolean;
+    isGroup: boolean;
   }> =[
     {
         "name": "SM Curtain Z1",
        "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#sm_curtain_z1",
         "id": "b4b4da59-0749-4289-a02a-1876b0ae5474",
+        isGroup: false,
         selected: true,
     },
     {
@@ -142,77 +150,70 @@ export const actuators: Array<{
         "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#sm_curtain_z3",
         "id": "20a107b2-9a36-401e-bd46-81dc2c2f99a3",
         selected: false,
+        isGroup: false,
     },
     {
         "name": "SM Curtain Z4",
         "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#sm_curtain_z4",
         "id": "8c07395e-839f-4a8f-af7c-d569cb58b2e6",
         selected: false,
+        isGroup: false,
     },
     {
         "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#valve_z1-1",
         "name": "Valve_Z1-1",
         "id": "8ec6e59a-7de4-4f35-a9f8-1ca22c853027",
         selected: true,
+        isGroup: false,
     },
     {
         "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#valve_z1-2",
         "name": "Valve_Z1-2",
         "id": "2c5ee534-37e5-4f5e-b9cc-8f4a4de4bfc4",
         selected: false,
+        isGroup: false,
     },
     {
         "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#valve_z1-3",
         "name": "Valve_Z1-3",
         "id": "fae2b9d3-aa3f-4e8c-935f-0aef6db2e08c",
         selected: false,
+        isGroup: false,
+    },
+    {
+        "nodeRedId": "costafarm#4c20dc27-8735-4c07-851f-38b589c49eda#valve_z1-3",
+        "name": "H-1 BAY-1 DIEFF",
+        "id": "9eb204c5-67f0-4011-a6d7-1839765d3532",
+        selected: false,
+        isGroup: false,
+
+    },
+    {
+        "nodeRedId": "",
+        "name": "HOUSE 1 MIST GROUP 2",
+        "id": "9d7866e8-eb45-496b-ab2c-c2bd49b7adc7",
+        selected: false,
+        isGroup: true,
+    },
+    {
+        "nodeRedId": "",
+        "name": "HOUSE 1 MIST GROUP 3",
+        "id": "7a651838-171e-41f5-9c52-dc571cb6f361",
+        selected: false,
+        isGroup: true,
+    },
+    {
+        "nodeRedId": "",
+        "name": "HOUSE 1 MIST GROUP 4",
+        "id": "3324475c-e26f-4294-b578-bc075b4171f8",
+        selected: false,
+        isGroup: true,
     }
+
 ]
 
 export const routines = [
-  {
-      "id": "2b5592b6-d11b-42ca-a3ee-d22cd2eb75b3",
-      "priority": 126,
-      "name": "HOUSE 1 MIST GROUP 1",
-      "triggers": [],
-      "actions": [
-          {
-              "triggerState": {
-                  "description": "H-1 BAY-1 DIEFF (Group) on Sequential On/Off"
-              },
-              "isGroup": true,
-              "group": {
-                  "id": "9eb204c5-67f0-4011-a6d7-1839765d3532"
-              },
-              "device": {},
-              "entityType": "actuators"
-          }
-      ],
-      "condition": {
-          "activated": true,
-          "activeDays": [
-              0,
-              1,
-              2,
-              3,
-              4,
-              5,
-              6
-          ],
-          "activatedBetween": {
-              "dateEnd": 1691098200000,
-              "dateIni": 1691069580000
-          },
-          "suppressFor": 5
-      },
-      "isEnabled": true,
-      "notification": {
-          "isActivated": false,
-          "notificationMessage": "H-1 BAY-1 DIEFF executed"
-      },
-      "area_id": "4c20dc27-8735-4c07-851f-38b589c49eda",
-      "entityType": "routines"
-  },
+  
   {
       "id": "681f510a-9fe8-4bc3-be65-f8e7a4675346",
       "priority": 125,

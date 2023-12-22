@@ -1,0 +1,44 @@
+{
+  "name": "web-speech",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web-speech/src",
+  "prefix": "cf",
+  "tags": [],
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/angular:package",
+      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+      "options": {
+        "project": "libs/web-speech/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/web-speech/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/web-speech/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/web-speech/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/web-speech/**/*.ts",
+          "libs/web-speech/**/*.html",
+          "libs/web-speech/package.json"
+        ]
+      }
+    }
+  }
+}
