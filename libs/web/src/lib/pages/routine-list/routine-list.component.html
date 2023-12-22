@@ -12,10 +12,14 @@
             <span class="text-gray-300 ml-8 sm:ml-12">Name</span>
         </div>
         @for (routine of routines; track $index) {
-            <div class="border border-gray-700 min-h-[50px] flex justify-start items-center px-3">
+            <a href="#" [routerLink]="['../routine', routine?.id]">
+                <div class="border border-gray-700 min-h-[50px] flex justify-start items-center px-3"
+                >
                 <cf-switch/>                             
                 <span class="text-gray-300 ml-8 sm:ml-12">{{routine?.name}}</span>
             </div>
+            </a>
+            
         } 
     
       </div>

@@ -1,22 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomTabsComponent, TabItem, VoiceManagerComponent } from '@cf/shared';
+import { CustomTabsComponent, TabItem } from '@cf/shared';
 import { SvgLoaderComponent } from '@cf/shared';
-import { DataFieldCommand } from '../../ui-models';
+import { DataFieldCommand, routineTransform } from '../../ui-models';
 import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
-import { actuators, getInitialData, sensors } from './mock-data';
+import { actuators, sensors } from './mock-data';
+import { ActivatedRoute } from '@angular/router';
+import { of, switchMap } from 'rxjs';
+import { routines } from './mock-data';
+import { EmptyRoutine, RoutineEntity } from '@cf/domain';
 
 @Component({
   selector: 'cf-routine-details',
   standalone: true,
   imports: [
-    CommonModule, 
-    CustomTabsComponent, 
+    CommonModule,
+    CustomTabsComponent,
     SvgLoaderComponent,
     SimpleDatafieldComponent,
     GroupDatafieldComponent,
-    DevicesComponent
+    DevicesComponent,
   ],
   templateUrl: './routine-details.component.html',
   styleUrl: './routine-details.component.scss',
@@ -44,21 +48,6 @@ export class RoutineDetailsComponent {
       subTitle: 'Email, SMS and Push',
     },
   ];
-  infoFields: Array<DataFieldCommand>;
-  triggerFields: Array<DataFieldCommand>;
-  actionFields: Array<DataFieldCommand>;
-  notificationFields: Array<DataFieldCommand>;
-
-  routineFields: Array<{
-    key: string;
-    title: string;
-    tabContent: Array<DataFieldCommand>
-  }>;
-  currentTab: {
-    key: string;
-    title: string;
-    tabContent: Array<DataFieldCommand>
-  };
   sensors: Array<{
     id: string;
     nodeRedId: string;
@@ -71,41 +60,63 @@ export class RoutineDetailsComponent {
     name: string;
     selected: boolean;
   }> = [];
+  
+  private route = inject(ActivatedRoute); 
+  
+  public selectedIndex = signal(0);
+  public currentRoutine = signal<RoutineEntity>(new EmptyRoutine());
 
-  constructor() {
-    const data = getInitialData();
-    this.infoFields =  data.infoFields as DataFieldCommand[];
-    this.triggerFields = data.triggerFields as DataFieldCommand[];
-    this.actionFields = data.actionFields as DataFieldCommand[];
-    this.notificationFields = data.notificationFields as DataFieldCommand[];
-    this.routineFields = [
+  public routineFields = computed<Array<{
+    key: string;
+    title: string;
+    tabContent: Array<DataFieldCommand>;
+  }>>(() => {
+     return [
       {
         key: 'info',
         title: 'Information',
-        tabContent: this.infoFields
+        tabContent: routineTransform('info', this.currentRoutine()),
       },
       {
         key: 'trigger',
         title: 'Triggers',
-        tabContent: this.triggerFields
+        tabContent: routineTransform('trigger', this.currentRoutine()),
       },
       {
         key: 'action',
         title: 'Actions',
-        tabContent: this.actionFields
+        tabContent: routineTransform('action', this.currentRoutine()),
       },
       {
         key: 'notification',
         title: 'Notification',
-        tabContent: this.notificationFields
+        tabContent: routineTransform('notification', this.currentRoutine())
       },
-    ]
-    this.currentTab = this.routineFields[0];
+    ];
+  });
+  public currentTab = computed(() => this.routineFields()[this.selectedIndex()]);
+
+  public selectedSensors = computed(() => this.currentRoutine().triggers.map((t) => {
+    return t.isGroup && t.group ? t.group.id : t.device?.id ?? '';
+  }));
+
+  public selectedActuators = computed(() => this.currentRoutine().actions.map((a) => {
+    return a.isGroup && a.group ? a.group.id : a.device?.id ?? '';
+  }));
+
+
+  constructor() {
     this.sensors = sensors;
-    this.actuators = actuators;
-  }
+    this.actuators = actuators;    
+    this.route.params.pipe(
+      switchMap(({id}) => {
+        const routine =
+          routines.find((r) => r.id === id) || new EmptyRoutine();
+        return of(routine as RoutineEntity);
+      })).subscribe((routine) => this.currentRoutine.set(routine));
+  }  
 
   onTabsChanged(selectedTabIndex: number) {
-    this.currentTab = this.routineFields[selectedTabIndex];
+    this.selectedIndex.set(selectedTabIndex);
   }
 }

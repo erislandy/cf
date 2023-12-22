@@ -3,8 +3,8 @@ export interface DataFieldCommand {
     command: string;
     required: boolean;
     label: string;
-    type: "simple" | "group";
+    type: string;
     value: string | Array<string>;
-    state: 'valid' | 'invalid' | 'pending' | 'disabled';
+    state: string//'valid' | 'invalid' | 'pending' | 'disabled';
   }
   

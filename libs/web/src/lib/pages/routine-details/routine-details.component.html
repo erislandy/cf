@@ -14,11 +14,11 @@
             min-w-[200px] max-w-2xl">
       <h4 class="mb-4 font-semibold text-gray-300
                dark:text-gray-300">
-        {{currentTab.title}}
+        {{currentTab().title}}
       </h4>
 
       <div class="flex flex-col">
-        @for (item of currentTab.tabContent; track item.command) {
+        @for (item of currentTab().tabContent; track item.command) {
           @if(item.type === 'simple'){
             <cf-simple-datafield [dataField]="item"/>
           }
@@ -29,10 +29,11 @@
         }
       </div>
     </div>
-    @if(currentTab.key === 'trigger' || currentTab.key === 'action'){
+    @if(currentTab().key === 'trigger' || currentTab().key === 'action'){
       <cf-devices 
-        [devices]="currentTab.key === 'trigger' ? sensors : actuators" 
-        [deviceType]="currentTab.key === 'trigger' ? 'Sensors' : 'Actuators'"
+        [devices]="currentTab().key === 'trigger' ? sensors : actuators" 
+        [selectedDevices]="currentTab().key === 'trigger' ? selectedSensors() : selectedActuators()"
+        [deviceType]="currentTab().key === 'trigger' ? 'Sensors' : 'Actuators'"
 
         class="w-full flex justify-center"/>
     }
