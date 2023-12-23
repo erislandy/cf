@@ -18,8 +18,7 @@
       "@cf/domain": ["libs/domain/src/index.ts"],
       "@cf/shared": ["libs/shared/src/index.ts"],
       "@cf/web": ["libs/web/src/index.ts"],
-      "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"],
-      "@engadi-solutions/web-speech": ["libs/web-speech/src/index.ts"]
+      "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
