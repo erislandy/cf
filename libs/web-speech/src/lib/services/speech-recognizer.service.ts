@@ -6,7 +6,7 @@ import { SpeechEvent, SpeechNotification, SpeechError, } from "../models";
     providedIn: 'root',
   })
   export class SpeechRecognizerService {
-    recognition!: SpeechRecognition;
+    recognition!: any;
     language!: string;
     isListening = false;
   
@@ -15,7 +15,7 @@ import { SpeechEvent, SpeechNotification, SpeechError, } from "../models";
     initialize(language: string): boolean {
       if ('webkitSpeechRecognition' in window) {     
 
-        this.recognition = new webkitSpeechRecognition();
+   //     this.recognition = new webkitSpeechRecognition();
         this.recognition.continuous = true;
         this.recognition.interimResults = true;
         this.setLanguage(language);
@@ -70,7 +70,7 @@ import { SpeechEvent, SpeechNotification, SpeechError, } from "../models";
   
     onResult(): Observable<SpeechNotification<string>> {
       return new Observable(observer => {
-        this.recognition.onresult = (event: SpeechRecognitionEvent) => {
+        this.recognition.onresult = (event: any) => {
           let interimContent = '';
           let finalContent = '';
   
@@ -100,7 +100,7 @@ import { SpeechEvent, SpeechNotification, SpeechError, } from "../models";
   
     onError(): Observable<SpeechNotification<never>> {
       return new Observable(observer => {
-        this.recognition.onerror = (event) => {
+        this.recognition.onerror = (event: any) => {
           // tslint:disable-next-line:no-any
           const eventError: string = (event as any).error;
           console.log('error', eventError);

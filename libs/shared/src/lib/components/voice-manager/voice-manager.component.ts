@@ -67,6 +67,12 @@ export class VoiceManagerComponent implements OnInit {
     console.log('stateChangedHandler: ', oldState);
     this.state = stateOrderAfterClick[oldState as keyof typeof stateOrderAfterClick];
     this.stateChanged.emit(this.state);    
+
+    if (this.state === VoiceButtonStates.ACTIVE) {
+      this.start();
+    } else if (this.state === VoiceButtonStates.LOADING) {
+      this.stop();
+    }
   }
   private initRecognition(): void {
     this.transcript$ = this.speechRecognizer.onResult().pipe(
