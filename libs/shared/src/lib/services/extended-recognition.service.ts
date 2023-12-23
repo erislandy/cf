@@ -45,10 +45,16 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
 
     return () => this.speechRecognition.abort();
   }
-    changeLanguage(newLang: string): void {
+  changeLanguage(newLang: string): void {
         if (this.speechRecognition) {
             this.speechRecognition.abort();
             this.initSpeechRecognition(this._subscriber, newLang);
         }
+  }
+  stop(): void {
+    if (this.speechRecognition) {
+      this.speechRecognition.abort();
+      this._subscriber.unsubscribe();
     }
+  }
 }

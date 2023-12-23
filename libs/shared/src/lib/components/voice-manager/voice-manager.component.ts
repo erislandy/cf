@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input,  LOCALE_ID, Output, inject, signal,  } 
 import { CommonModule } from '@angular/common';
 import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
 import { VoiceButtonStates, stateOrderAfterClick } from '../../models';
-import { final, continuous } from '@ng-web-apis/speech';
+import { final, continuous, takeUntilSaid } from '@ng-web-apis/speech';
 import { Subject, debounceTime, repeat, retry, tap, timer } from 'rxjs';
 import { ExtendedRecognitionService } from '../../services/extended-recognition.service';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -29,7 +29,11 @@ export class VoiceManagerComponent  {
     debounceTime(300),
     tap((event) => {
       console.log('after 300', event);
-      this.typeText(event)
+      this.typeText(event);
+      if(event.trim().toLocaleLowerCase().includes('apagar')) {
+        this.recognitionService.stop();
+        setTimeout(() =>this.stateChangedHandler(VoiceButtonStates.ACTIVE),500);
+      }
     }),
   ));
 
@@ -57,6 +61,7 @@ export class VoiceManagerComponent  {
           if(event.length === 0) return;
           const newText = event[event.length - 1][0].transcript;
           if(newText === this.message()) return;
+          
           this.eventmessages$.next(newText);  
   
         },
@@ -64,11 +69,8 @@ export class VoiceManagerComponent  {
         complete: () => console.log('Recognition complete'),
       });
     } else {
-      console.log("Ya paro");
-    }
-    
-
-   
+      this.recognitionService.stop();
+    }   
   }
 
   typeText(newText: string) {
