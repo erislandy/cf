@@ -28,7 +28,7 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
     this.speechRecognition = new this.classRef();
     this.speechRecognition.lang = lang
     this.speechRecognition.maxAlternatives = 3;
-    this.speechRecognition.interimResults = false;
+    this.speechRecognition.interimResults = true;
    
     // eslint-disable-next-line
     this.speechRecognition.onerror = (error: any) => subscriber.error(error);
