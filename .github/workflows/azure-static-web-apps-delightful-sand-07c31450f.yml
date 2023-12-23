@@ -7,6 +7,7 @@ on:
     paths:
       - apps/voice-command/**
       - .github/workflows/azure-static-web-apps-delightful-sand-07c31450f.yml
+      - package.json
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
@@ -14,6 +15,7 @@ on:
     paths:
       - apps/voice-command/**
       - .github/workflows/azure-static-web-apps-delightful-sand-07c31450f.yml
+      - package.json
 
 jobs:
   build_and_deploy_job:
