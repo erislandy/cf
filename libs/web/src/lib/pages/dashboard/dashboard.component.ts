@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { VoiceManagerComponent, WindmillSidebarComponent } from '@cf/shared';
+import { VoiceManagerComponent, WindmillHeaderComponent, WindmillSidebarComponent } from '@cf/shared';
 
 @Component({
   selector: 'cf-dashboard',
@@ -10,6 +10,7 @@ import { VoiceManagerComponent, WindmillSidebarComponent } from '@cf/shared';
     CommonModule, 
     RouterOutlet, 
     WindmillSidebarComponent,
+    WindmillHeaderComponent,
     VoiceManagerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',

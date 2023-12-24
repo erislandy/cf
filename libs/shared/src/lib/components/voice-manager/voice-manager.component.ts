@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input,  LOCALE_ID, Output, inject, signal,  } 
 import { CommonModule } from '@angular/common';
 import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
 import { VoiceButtonStates, stateOrderAfterClick } from '../../models';
-import { final, continuous, takeUntilSaid } from '@ng-web-apis/speech';
+import { final, continuous } from '@ng-web-apis/speech';
 import { Subject, debounceTime, repeat, retry, tap, timer } from 'rxjs';
 import { ExtendedRecognitionService } from '../../services/extended-recognition.service';
 import { toSignal } from '@angular/core/rxjs-interop';
