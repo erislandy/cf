@@ -1,9 +1,11 @@
 import { Route } from '@angular/router';
+import { MsalGuard } from '@azure/msal-angular';
 
 export const appRoutes: Route[] = [
     {
         path: 'dashboard',
         loadComponent: () => import("@cf/web").then(m => m.DashboardComponent),
+        canActivate: [MsalGuard],
         children:[            
             {
                 path: 'routines',
