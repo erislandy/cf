@@ -24,6 +24,7 @@ export interface RoutineCondition {
 export type RoutineNotificationType = {
   isActivated: boolean;
   notificationMessage: string;
+  type: "Push" | "Email" | "SMS";
 };
 
 export type RoutineParamType = {
@@ -56,6 +57,7 @@ export class EmptyRoutine implements RoutineEntity {
     this.notification = {
       isActivated: false,
       notificationMessage: '',
+      type: 'Push'
     };
     this.triggers = [];
     this.isEnabled = false;
