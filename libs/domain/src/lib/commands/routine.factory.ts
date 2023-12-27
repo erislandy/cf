@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { setIntervalCommand, changeStateCommand, createRoutineCommand, getRoutineByNameCommand, setDeviceParamsCommand, setNameCommand, setNotificationActivatedCommand, setNotificationMessageCommand, setNotificationTypeCommand, setRepetitionDaysCommand, setSupressForCommand } from "./routine/change-state.command";
+import { setIntervalCommand, changeStateCommand, createRoutineCommand, getRoutineByNameCommand, setDeviceParamsCommand, setNameCommand, setNotificationActivatedCommand, setNotificationMessageCommand, setNotificationTypeCommand, setRepetitionDaysCommand, setSupressForCommand } from "./routine/routine.commands";
 import { RoutineEntity } from "../models";
 import { BehaviorSubject, Observable } from "rxjs";
 

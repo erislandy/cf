@@ -6,6 +6,9 @@ import { final, continuous } from '@ng-web-apis/speech';
 import { Subject, debounceTime, repeat, retry, tap, timer } from 'rxjs';
 import { ExtendedRecognitionService } from '../../services/extended-recognition.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpClient } from '@angular/common/http';
+import {  getLocalCommand } from '../../services/get-local-commands';
+import { CommandExecutor } from '../../services/command-executor.service';
 
 @Component({
   selector: 'cf-voice-manager',
@@ -18,27 +21,29 @@ import { toSignal } from '@angular/core/rxjs-interop';
     useValue: 'es-ES' // Cambia esto al idioma deseado
   },],
 })
-export class VoiceManagerComponent  {
+export class VoiceManagerComponent {
+ 
 
   message = signal('');
  
   @Input() state: VoiceButtonStates = VoiceButtonStates.INACTIVE;
   @Output() stateChanged: EventEmitter<VoiceButtonStates> = new EventEmitter<VoiceButtonStates>();
+  
   eventmessages$ = new Subject<string>();  
   message2 = toSignal<string>(this.eventmessages$.pipe(
     debounceTime(300),
     tap((event) => {
       console.log('after 300', event);
       this.typeText(event);
-      if(event.trim().toLocaleLowerCase().includes('apagar')) {
-        this.recognitionService.stop();
-        setTimeout(() =>this.stateChangedHandler(VoiceButtonStates.ACTIVE),500);
-      }
+      this.processEvent(event);
     }),
   ));
-
+  http = inject(HttpClient);
+  commandExecutor = inject(CommandExecutor);  
+  
   recognitionService = inject(ExtendedRecognitionService)
   
+
   stateChangedHandler(oldState: VoiceButtonStates) {
     console.log('stateChangedHandler: ', oldState);
     this.state = stateOrderAfterClick[oldState as keyof typeof stateOrderAfterClick];
@@ -72,7 +77,7 @@ export class VoiceManagerComponent  {
       this.recognitionService.stop();
     }   
   }
-
+  
   typeText(newText: string) {
     let counter = 0;
     const subs = timer(0, 100).pipe().subscribe(() => {
@@ -82,6 +87,22 @@ export class VoiceManagerComponent  {
         subs.unsubscribe();
       }
     });    
+  }
+  processEvent(event: string) {
+    if(event.trim().toLocaleLowerCase().includes('apagar')) {
+      this.recognitionService.stop();
+      setTimeout(() =>this.stateChangedHandler(VoiceButtonStates.ACTIVE),500);
+    }
+    const localCommad = getLocalCommand(event);
+    if(localCommad.isLocalCommand)
+      localCommad.command === "setLanguage" 
+      ? this.recognitionService.changeLanguage() 
+      : this.commandExecutor.execute(localCommad.command);
+      
+      
+    else {
+      this.commandExecutor.request(event);
+    }
   }
 }
 

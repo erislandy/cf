@@ -45,7 +45,8 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
 
     return () => this.speechRecognition.abort();
   }
-  changeLanguage(newLang: string): void {
+  changeLanguage(): void {
+      const newLang = this.speechRecognition.lang === 'es-ES' ? 'en-US' : 'es-ES';
         if (this.speechRecognition) {
             this.speechRecognition.abort();
             this.initSpeechRecognition(this._subscriber, newLang);
