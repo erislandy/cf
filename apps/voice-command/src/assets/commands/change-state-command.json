@@ -1,8 +1,5 @@
 [
-    {
-        "command": "change-state",
-        "texto": "Enable the routine for next week 1"
-    },
+    
     {
         "command": "change-state",
         "texto": "Disable this routine temporarily"
