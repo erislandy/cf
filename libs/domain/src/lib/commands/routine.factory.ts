@@ -8,7 +8,7 @@ import { BehaviorSubject, Observable } from "rxjs";
   })
   export class RoutineFactory {
     private routineSelected$ = new BehaviorSubject<RoutineEntity | undefined>(undefined);
-    const commands = {
+    commands = {
         "change-state": changeStateCommand,
         "create-routine": createRoutineCommand,
         "get-routine-by-name": getRoutineByNameCommand,
