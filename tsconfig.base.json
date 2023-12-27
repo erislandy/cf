@@ -16,9 +16,11 @@
     "baseUrl": ".",
     "paths": {
       "@cf/domain": ["libs/domain/src/index.ts"],
+      "@cf/ifrastructure": ["libs/infrastructure/src/index.ts"],
       "@cf/shared": ["libs/shared/src/index.ts"],
       "@cf/web": ["libs/web/src/index.ts"],
-      "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"]
+      "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"],
+      "@engadi-soutions/infrastructure": ["libs/infrastructure/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
