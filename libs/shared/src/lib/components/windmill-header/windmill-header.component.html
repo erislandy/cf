@@ -49,6 +49,16 @@
         </div>
       </div>
       <ul class="flex items-center flex-shrink-0 space-x-6">
+        <li class="flex">
+          <button
+            class="rounded-md focus:outline-none focus:shadow-outline-purple"
+            aria-label="Toggle color mode"
+          >
+          {{languageChanged() ?? 'ES'}}      
+
+          </button>
+        </li>
+
         <!-- Theme toggler -->
         <li class="flex">
           <button

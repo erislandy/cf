@@ -1,6 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CommandExecutor } from '../../services/command-executor.service';
+import { filter, map, scan, tap } from 'rxjs';
 
 @Component({
   selector: 'cf-windmill-header',
@@ -44,6 +47,14 @@ export class WindmillHeaderComponent {
   isProfileMenuOpen: boolean = false;
   dark: boolean = true;
   @Output() menuChanged: EventEmitter<boolean> = new EventEmitter();
+
+  commandExecutor = inject(CommandExecutor);
+  languageChanged = toSignal(this.commandExecutor.externalCommand$.asObservable().pipe(
+    filter((e:string | undefined ) => !!e && e === 'setLanguage'),
+    scan((acc: string) => acc === 'ES' ? 'EN' : 'ES', 'ES'),
+    tap((lang) => console.log("lang: ", lang)),
+  ));
+
   toggleSideMenu(){
     this.menuChanged.emit(true);
   }

@@ -94,12 +94,11 @@ export class VoiceManagerComponent {
       setTimeout(() =>this.stateChangedHandler(VoiceButtonStates.ACTIVE),500);
     }
     const localCommad = getLocalCommand(event);
-    if(localCommad.isLocalCommand)
-      localCommad.command === "setLanguage" 
-      ? this.recognitionService.changeLanguage() 
-      : this.commandExecutor.execute(localCommad.command);
-      
-      
+    if(localCommad.isLocalCommand){
+      if(localCommad.command === "setLanguage") 
+        this.recognitionService.changeLanguage() 
+      this.commandExecutor.execute(localCommad.command);
+    }  
     else {
       this.commandExecutor.request(event);
     }
