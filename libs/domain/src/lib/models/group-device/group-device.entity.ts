@@ -1,4 +1,4 @@
-import { GenericEntity } from '../generic';
+import { GenericEntity } from '../../generic';
 
 export interface GroupDeviceEntity extends GenericEntity {
   key: string;

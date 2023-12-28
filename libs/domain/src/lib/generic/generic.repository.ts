@@ -2,33 +2,33 @@
 
 import { Observable } from 'rxjs';
 import { EntityRepository } from '../base';
-import { EntityType, GenericEntity } from './generic.entity';
+import { EntityType } from './generic.entity';
 
-export abstract class GenericRepository extends EntityRepository {
-  abstract getGenerics(entityType: EntityType, area_id: string, queryParams?: Record<string, string>): Observable<any[]>;
+export abstract class GenericRepository<T> extends EntityRepository {
+  abstract getGenerics(entityType: EntityType, area_id: string, queryParams?: Record<string, string>): Observable<T[]>;
 
-  abstract getOneGeneric(key: string, entityType: EntityType, area_id?: string, queryParams?: Record<string, string>): Observable<any>;
+  abstract getOneGeneric(key: string, entityType: EntityType, area_id?: string, queryParams?: Record<string, string>): Observable<T>;
 
   abstract createGeneric(
-    Generic: GenericEntity,
+    Generic: T,
     area_id?: string,
-  ): Promise<any>;
+  ): Observable<T>;
 
   abstract updateGeneric(
-    Generic: GenericEntity,
+    Generic: T,
     area_id?: string,
-  ): Promise<any>;
+  ): Observable<T>;
 
   abstract deleteGeneric(
     key: string,
     entityType: EntityType,
     area_id?: string,
-  ): Promise<boolean>;
+  ): Observable<boolean>;
 
 
   abstract updateGenericInTwin(
     hubDeviceId: string,
     propertyName: string,
-    data: { genericId: string, generic?: GenericEntity; }
-  ): Promise<boolean>;
+    data: { genericId: string, generic?: T; }
+  ): Observable<boolean>;
 }

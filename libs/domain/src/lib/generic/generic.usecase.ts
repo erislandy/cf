@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { UseCase } from '../base';
-import { EntityType, GenericEntity } from './generic.entity';
+import { EntityType } from './generic.entity';
 import { GenericRepository } from './generic.repository';
 import { GenericRepositoryFactory } from './generic.repository.factory';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class GenericUseCase extends UseCase<GenericRepository> {
-  constructor (repositoryFactory: GenericRepositoryFactory) {
+export class GenericUseCase<T> extends UseCase<GenericRepository<T>> {
+  constructor (repositoryFactory: GenericRepositoryFactory<T>) {
     super(repositoryFactory);
   }
   invalidCache() {
@@ -16,20 +17,20 @@ export class GenericUseCase extends UseCase<GenericRepository> {
   }
   //Implements CRUD methods for GenericEntity
   createGeneric(
-    generic: GenericEntity | any,
+    generic: T,
     areaId = ''
-  ): Promise<any> {
+  ): Observable<T> {
     return this.getRepository.createGeneric(generic, areaId);
   }
 
   updateGeneric(
-    generic: GenericEntity,
+    generic: T,
     areaId: string = ''
-  ): Promise<any> {
+  ): Observable<T> {
     return this.getRepository.updateGeneric(generic, areaId);
   }
 
-  deleteGeneric(key: string, entityType: EntityType, areaId: string = ''): Promise<boolean> {
+  deleteGeneric(key: string, entityType: EntityType, areaId: string = ''): Observable<boolean> {
     return this.getRepository.deleteGeneric(key, entityType, areaId);
   }
 
@@ -44,8 +45,8 @@ export class GenericUseCase extends UseCase<GenericRepository> {
   updateGenericInTwin(
     hubDeviceId: string,
     propertyName: string,
-    data: { genericId: string, generic?: GenericEntity; }
-  ): Promise<boolean> {
+    data: { genericId: string, generic?: T; }
+  ): Observable<boolean> {
     return this.getRepository.updateGenericInTwin(hubDeviceId, propertyName, data);
   };
 }

@@ -1,5 +1,5 @@
+import { GenericEntity } from '../../generic';
 import { DeviceCommonEntity } from '../area';
-import { GenericEntity } from '../generic';
 
 export interface GroupEntity extends GenericEntity {
   name: string;

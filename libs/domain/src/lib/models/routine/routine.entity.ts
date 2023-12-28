@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActuatorEntity, SensorEntity } from '../area';
-import { EntityType, GenericEntity } from '../generic';
+import { EntityType, GenericEntity } from '../../generic';
 import { GroupEntity } from '../group';
 
 export interface RoutineEntity extends GenericEntity {

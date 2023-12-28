@@ -1,4 +1,5 @@
-import {   EntityType,   RoutineEntity,  defaultNotification,  generateDefaultCondition, getDeviceInRoutine, updateTriggerState } from "../../models";
+import { EntityType } from "../../generic";
+import { RoutineEntity,  defaultNotification,  generateDefaultCondition, getDeviceInRoutine, updateTriggerState } from "../../models";
 import { EmptyRoutine } from "../../models";
 
 export const changeStateCommand = (params : {isEnabled: boolean}, routine: RoutineEntity) => {

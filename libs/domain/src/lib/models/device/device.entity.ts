@@ -1,4 +1,4 @@
-import { GenericEntity } from "../generic";
+import { GenericEntity } from '../../generic';
 import { DeviceTypeEnum, GroupDeviceEntity } from "../group-device";
 
 export interface DeviceEntity extends GenericEntity {

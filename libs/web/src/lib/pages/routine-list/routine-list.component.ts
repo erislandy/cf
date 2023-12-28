@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import Fuse from 'fuse.js';
 import { CommandExecutor } from '@cf/shared';
 import { filter, switchMap } from 'rxjs';
-import { commandType } from '@cf/domain';
+import { EntityType, GenericUseCase, RoutineEntity, commandType } from '@cf/domain';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cf-routine-list',
@@ -17,17 +18,18 @@ import { commandType } from '@cf/domain';
   styleUrl: './routine-list.component.scss',
 })
 export class RoutineListComponent implements OnInit{
-  routines: Array<{name: string, id: string}> = [];
+ 
   http = inject(HttpClient);
   commandExecutor = inject(CommandExecutor);
-  constructor(){    
-    this.routines = routines;
-  }
+
+  genericService = inject(GenericUseCase<RoutineEntity>);
+  routines = toSignal(this.genericService.getGenerics(EntityType.ROUTINE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'));
   ngOnInit(): void {
-    this.http.get('https://ctrlplus-cruds-azure-functions-counters-dev.azurewebsites.net/api/MainEntityCRUD?operation=getAll&entityType=routines&area_id=e563c6a6-b3d4-4eec-acd4-426d2b7615be')
-    .subscribe((data: any) => { 
-      console.log(data);
-    });
+    /*
+    this.http.get<RoutineEntity>('https://ctrlplus-cruds-azure-functions-counters-dev.azurewebsites.net/api/MainEntityCRUD?operation=getAll&entityType=routines&area_id=e563c6a6-b3d4-4eec-acd4-426d2b7615be')
+    .subscribe(data => { 
+      console.log({data});
+    });*/
     this.commandExecutor.requestCommand$.pipe(
       filter(event => event != null && event.trim() !== ''),
       switchMap((event) => this.http.post<{res: {role: string, content: string}}>(

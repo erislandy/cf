@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
@@ -8,8 +8,9 @@ import { IPublicClientApplication, PublicClientApplication, InteractionType, Bro
 import { withDisabledInitialNavigation, withEnabledBlockingInitialNavigation } from '@angular/router';
 import { environment } from '../environments/environment';
 import { CustomNameInterceptor } from './interceptors/custom-name.interceptor';
-import { CORE_CUSTOM_CONFIG } from './configuration/config';
 import { coreConfig } from "./config";
+import { CORE_CUSTOM_CONFIG } from '@cf/domain';
+import { factoriesProviders } from '@cf/ifrastructure';
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
   console.log(message);
@@ -97,6 +98,7 @@ export const appConfig: ApplicationConfig = {
   {
     provide: CORE_CUSTOM_CONFIG,
     useValue: coreConfig
-  }
+  },
+  ...factoriesProviders
   ],
 };

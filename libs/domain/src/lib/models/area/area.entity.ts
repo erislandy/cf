@@ -1,5 +1,5 @@
 import { DeviceEntity } from '../device';
-import { GenericEntity } from '../generic';
+import { GenericEntity } from '../../generic';
 
 export interface DeviceCommonEntity extends GenericEntity {
   name: string;
