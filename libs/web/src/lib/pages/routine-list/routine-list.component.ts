@@ -1,19 +1,19 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SwitchComponent } from "@eg/angular-to-nodered-ui";
 import { routines } from '../routine-details/mock-data';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Fuse from 'fuse.js';
-import { CommandExecutor } from '@cf/shared';
-import { filter, switchMap } from 'rxjs';
+import { CommandExecutor, VoiceLoaderComponent } from '@cf/shared';
+import { filter, switchMap, tap } from 'rxjs';
 import { EntityType, GenericUseCase, RoutineEntity, commandType } from '@cf/domain';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'cf-routine-list',
   standalone: true,
-  imports: [CommonModule, SwitchComponent, RouterModule],
+  imports: [CommonModule, SwitchComponent, RouterModule, VoiceLoaderComponent],
   templateUrl: './routine-list.component.html',
   styleUrl: './routine-list.component.scss',
 })
@@ -21,9 +21,16 @@ export class RoutineListComponent implements OnInit{
  
   http = inject(HttpClient);
   commandExecutor = inject(CommandExecutor);
+  loading = signal(true);
 
   genericService = inject(GenericUseCase<RoutineEntity>);
-  routines = toSignal(this.genericService.getGenerics(EntityType.ROUTINE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'));
+  routines = toSignal(this.genericService.getGenerics(EntityType.ROUTINE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be').pipe(
+    tap((data) => {
+      if(data && data.length > 0)
+        this.loading.set(false);
+    })
+  ));
+  
   ngOnInit(): void {
     /*
     this.http.get<RoutineEntity>('https://ctrlplus-cruds-azure-functions-counters-dev.azurewebsites.net/api/MainEntityCRUD?operation=getAll&entityType=routines&area_id=e563c6a6-b3d4-4eec-acd4-426d2b7615be')

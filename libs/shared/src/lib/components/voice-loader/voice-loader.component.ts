@@ -19,6 +19,7 @@ const stateOperationsIcon = {
 export class VoiceLoaderComponent implements OnChanges {
   
   @Input({required: true}) state: "success" | "error" | "loading" | "initial" = 'initial';
+  @Input() height: number = 20;
   icon = 'circle';
   currentClass = 'text-gray-300';
 
@@ -27,6 +28,9 @@ export class VoiceLoaderComponent implements OnChanges {
       this.state = changes['state'].currentValue;
       this.icon =stateOperationsIcon[this.state as keyof typeof stateOperationsIcon].icon;
       this.currentClass = stateOperationsIcon[this.state as keyof typeof stateOperationsIcon].class;
+    }
+    if(changes['height'] && changes['height'].currentValue ){
+      this.height = changes['height'].currentValue;
     }
   }
 }
