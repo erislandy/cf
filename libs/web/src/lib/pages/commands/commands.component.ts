@@ -19,7 +19,10 @@ export class CommandListComponent {
     {code: LocalCommandTypes.SAVE, name: 'Save', description: 'Save the current routine'},
     {code: LocalCommandTypes.NEXT, name: 'Next', description: 'Go to the next step in rountine'},
     {code: LocalCommandTypes.BACK, name: 'Back', description: 'Go to the previous step in routine'},
-    {code: LocalCommandTypes.SET_LANGUAGE, name: 'Change Language', description: 'Change language of the application'}, 
+    {code: LocalCommandTypes.SET_LANGUAGE, name: 'Change Language', description: 'Change language of the application'},
+    {code: LocalCommandTypes.POWER_OFF, name: 'Power off', description: 'Power off the command voice button'}, 
+    {code: LocalCommandTypes.GO_ROUTINES, name: 'Go to routines', description: 'Go to the routines page'},
+    {code: LocalCommandTypes.GO_COMMANDS, name: 'Go to commands', description: 'Go to the commands page'},
   ];
 
 }
