@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CommandExecutor } from '../../services/command-executor.service';
-import { filter, map, scan, tap } from 'rxjs';
+import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
 
 @Component({
   selector: 'cf-windmill-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SvgLoaderComponent],
   templateUrl: './windmill-header.component.html',
   styleUrl: './windmill-header.component.scss',
   animations: 
@@ -49,11 +49,7 @@ export class WindmillHeaderComponent {
   @Output() menuChanged: EventEmitter<boolean> = new EventEmitter();
 
   commandExecutor = inject(CommandExecutor);
-  languageChanged = toSignal(this.commandExecutor.externalCommand$.asObservable().pipe(
-    filter((e:string | undefined ) => !!e && e === 'setLanguage'),
-    scan((acc: string) => acc === 'ES' ? 'EN' : 'ES', 'ES'),
-    tap((lang) => console.log("lang: ", lang)),
-  ));
+  languageChanged = toSignal(this.commandExecutor.getCurrentLanguage());
 
   toggleSideMenu(){
     this.menuChanged.emit(true);

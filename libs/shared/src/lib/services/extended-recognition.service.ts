@@ -18,6 +18,7 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
       this._subscriber = subscriber;  
       this.initSpeechRecognition(subscriber, this.initialLang);
     });
+    localStorage.setItem('lang', this.initialLang);
   }
   private initSpeechRecognition(subscriber: Subscriber<SpeechRecognitionResult[]>, lang: string) {
     if (!this.classRef) {
@@ -51,6 +52,7 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
             this.speechRecognition.abort();
             this.initSpeechRecognition(this._subscriber, newLang);
             console.log("changed language to", newLang);
+            localStorage.setItem('lang', newLang);
         }
   }
   stop(): void {

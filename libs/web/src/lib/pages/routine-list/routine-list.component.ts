@@ -5,8 +5,7 @@ import { routines } from '../routine-details/mock-data';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import Fuse from 'fuse.js';
-import { CommandExecutor } from 'libs/shared/src/lib/services/command-executor.service';
-import { LocalCommandTypes } from 'libs/shared/src/lib/services/get-local-commands';
+import { CommandExecutor } from '@cf/shared';
 import { filter, switchMap } from 'rxjs';
 import { commandType } from '@cf/domain';
 

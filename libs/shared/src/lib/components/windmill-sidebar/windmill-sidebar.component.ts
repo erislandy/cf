@@ -1,11 +1,12 @@
 import { Component,   EventEmitter,   Input, Output,   } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'cf-windmill-sidebar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './windmill-sidebar.component.html',
   styleUrl: './windmill-sidebar.component.scss',
   animations: 

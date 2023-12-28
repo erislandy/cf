@@ -3,17 +3,18 @@ import { CommonModule } from '@angular/common';
 import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
 import { VoiceButtonStates, stateOrderAfterClick } from '../../models';
 import { final, continuous } from '@ng-web-apis/speech';
-import { Subject, debounceTime, repeat, retry, tap, timer } from 'rxjs';
+import { Subject, debounceTime, map, repeat, retry, tap, timer } from 'rxjs';
 import { ExtendedRecognitionService } from '../../services/extended-recognition.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
-import {  getLocalCommand } from '../../services/get-local-commands';
+import {  LocalCommandTypes, getLocalCommand } from '../../services/get-local-commands';
 import { CommandExecutor } from '../../services/command-executor.service';
+import { VoiceLoaderComponent } from '../voice-loader/voice-loader.component';
 
 @Component({
   selector: 'cf-voice-manager',
   standalone: true,
-  imports: [CommonModule, SvgLoaderComponent],
+  imports: [CommonModule, SvgLoaderComponent, VoiceLoaderComponent],
   templateUrl: './voice-manager.component.html',
   styleUrl: './voice-manager.component.scss',
   providers: [{
@@ -28,7 +29,6 @@ export class VoiceManagerComponent {
  
   @Input() state: VoiceButtonStates = VoiceButtonStates.INACTIVE;
   @Output() stateChanged: EventEmitter<VoiceButtonStates> = new EventEmitter<VoiceButtonStates>();
-  
   eventmessages$ = new Subject<string>();  
   message2 = toSignal<string>(this.eventmessages$.pipe(
     debounceTime(300),
@@ -42,7 +42,10 @@ export class VoiceManagerComponent {
   commandExecutor = inject(CommandExecutor);  
   
   recognitionService = inject(ExtendedRecognitionService)
-  
+  status = toSignal<"success" | "error" | "loading" | "initial">(this.commandExecutor.status$.pipe(
+    map((status) => status as "success" | "error" | "loading" | "initial")
+  ));
+ 
 
   stateChangedHandler(oldState: VoiceButtonStates) {
     console.log('stateChangedHandler: ', oldState);
@@ -61,17 +64,23 @@ export class VoiceManagerComponent {
         next: (event) => {         
           
           this.state = VoiceButtonStates.TALKING;
-          setTimeout(() => this.state = VoiceButtonStates.ACTIVE,500)     
           console.log('event: ', event);
           if(event.length === 0) return;
           const newText = event[event.length - 1][0].transcript;
           if(newText === this.message()) return;
-          
+          this.state = VoiceButtonStates.ACTIVE;
+          this.commandExecutor.status$.next('loading');
           this.eventmessages$.next(newText);  
   
         },
-        error: (error) => console.error('Recognition error:', error),
-        complete: () => console.log('Recognition complete'),
+        error: (error) => {
+          console.error('Recognition error:', error);
+          this.commandExecutor.status$.next('error');
+        },
+        complete: () => {
+          console.log('Recognition complete');
+          this.commandExecutor.status$.next('initial');
+        }
       });
     } else {
       this.recognitionService.stop();
@@ -89,15 +98,24 @@ export class VoiceManagerComponent {
     });    
   }
   processEvent(event: string) {
-    if(event.trim().toLocaleLowerCase().includes('apagar')) {
-      this.recognitionService.stop();
-      setTimeout(() =>this.stateChangedHandler(VoiceButtonStates.ACTIVE),500);
-    }
+    
     const localCommad = getLocalCommand(event);
     if(localCommad.isLocalCommand){
+      if(localCommad.command === "powerOff"){
+        this.recognitionService.stop();
+        setTimeout(() => {
+          this.stateChangedHandler(VoiceButtonStates.ACTIVE);
+          this.commandExecutor.status$.next('success');
+        },500);
+        return;
+      }
+        
+
       if(localCommad.command === "setLanguage") 
         this.recognitionService.changeLanguage() 
-      this.commandExecutor.execute(localCommad.command);
+
+      this.commandExecutor.execute(localCommad.command as LocalCommandTypes);
+      this.commandExecutor.status$.next('success');
     }  
     else {
       this.commandExecutor.request(event);

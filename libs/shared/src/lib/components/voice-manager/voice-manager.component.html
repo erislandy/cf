@@ -2,11 +2,12 @@
 <div class="flex flex-col justify-center items-center h-full">
   <div
   class="border border-gray-600 h-12 rounded-md px-3 
-  py-1 w-[90vw] max-w-2xl overflow-x-auto whitespace-nowrap">
-  <span class="text-gray-300 text-sm"
+  py-1 w-[90vw] max-w-2xl overflow-x-auto whitespace-nowrap flex justify-center items-center">
+  <span class="text-gray-300 text-sm flex-grow"
     >
     {{message()}}
   </span>
+  <cf-voice-loader [state]="status() ?? 'initial'"/>
 </div>
 <div
   class="h-20 w-20 border  mt-3

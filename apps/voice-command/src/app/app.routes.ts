@@ -16,12 +16,17 @@ export const appRoutes: Route[] = [
                 loadComponent: () => import("@cf/web").then(m => m.RoutineDetailsComponent),
             },
             {
+                path: 'commands',
+                loadComponent: () => import("@cf/web").then(m => m.CommandListComponent),
+            },
+            {
                 path: '',
                 redirectTo: 'routines',
                 pathMatch: 'full'
             },
         ]
     },
+    
     {
         path: 'login',
         loadComponent: () => import("@cf/web").then(m => m.LoginComponent),
