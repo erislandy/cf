@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { setIntervalCommand, changeStateCommand, createRoutineCommand, getRoutineByNameCommand, setDeviceParamsCommand, setNameCommand, setNotificationActivatedCommand, setNotificationMessageCommand, setNotificationTypeCommand, setRepetitionDaysCommand, setSupressForCommand } from "./routine/routine.commands";
-import { RoutineEntity } from "../models";
+import { EmptyRoutine, RoutineEntity } from "../models";
 import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root',
   })
   export class RoutineFactory {
-    private routineSelected$ = new BehaviorSubject<RoutineEntity | undefined>(undefined);
+    private routineSelected$ = new BehaviorSubject<RoutineEntity>(new EmptyRoutine());
     commands = {
         "change-state": changeStateCommand,
         "create-routine": createRoutineCommand,
@@ -22,10 +22,11 @@ import { BehaviorSubject, Observable } from "rxjs";
         "set-interval": setIntervalCommand
     }
     execute(command: commandType, params: any, routine: RoutineEntity) {
-        this.commands[command](params, routine);
-        this.routineSelected$.next(routine);
+        const newRoutine = this.commands[command](params, routine);
+        this.routineSelected$.next(newRoutine);
+        return newRoutine;
     }
-    getRoutine(): Observable<RoutineEntity | undefined> {
+    getRoutine(): Observable<RoutineEntity> {
       return this.routineSelected$.asObservable();
     }
   }

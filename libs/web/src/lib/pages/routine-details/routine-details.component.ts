@@ -6,7 +6,7 @@ import { DataFieldCommand, routineTransform } from '../../ui-models';
 import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
 import { ActivatedRoute } from '@angular/router';
-import {  ActuatorEntity, EntityType, GenericUseCase, GroupEntity, RoutineEntity } from '@cf/domain';
+import {  ActuatorEntity, EmptyRoutine, EntityType, GenericUseCase, GroupEntity, RoutineEntity, RoutineFactory, commandType } from '@cf/domain';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subscription, combineLatest, filter, map, switchMap, tap } from 'rxjs';
 import { SensorEntity } from '@cf/domain';
@@ -58,12 +58,13 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute); 
   genericService = inject(GenericUseCase<RoutineEntity>);
   commandExecutor = inject(CommandExecutor);
-
+  factory = inject(RoutineFactory);
+  
   //Simple signals
   loading = signal(true);
-  public selectedIndex = signal(0);
-
-
+  selectedIndex = signal(0);
+  selectedRoutine = toSignal(this.factory.getRoutine());
+  
   //Complex signals 
   devices = toSignal<Array<SensorEntity | ActuatorEntity | GroupEntity>>(combineLatest([
     this.genericService.getGenerics(EntityType.SENSOR, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'),
@@ -71,7 +72,8 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
     this.genericService.getGenerics(EntityType.GROUP_TYPE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be')    
   ]).pipe(
     map(([sensors, actuators, groups]) => sensors.concat(actuators).concat(groups)),
-    ));
+    tap(() => this.loading.set(false))));
+
   sensors = computed(() => this.devices()?.filter(d => 
       d.entityType === EntityType.SENSOR ||  
       (d.entityType === EntityType.GROUP_TYPE && 
@@ -92,11 +94,7 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
       nodeRedId: (d as ActuatorEntity).nodeRedId ?? '',
       selected: false
     })) ?? []);
-    currentRoutine = toSignal(
-      this.route.params.pipe(
-        switchMap(({id}) => this.genericService.getOneGeneric(id,EntityType.ROUTINE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be')),
-        tap(() => this.loading.set(false)))
-    );
+    
   routineFields = computed<Array<{
     key: string;
     title: string;
@@ -106,32 +104,32 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
       {
         key: 'info',
         title: 'Information',
-        tabContent: routineTransform('info', this.currentRoutine()),
+        tabContent: routineTransform('info', this.selectedRoutine() ?? new EmptyRoutine()),
       },
       {
         key: 'trigger',
         title: 'Triggers',
-        tabContent: routineTransform('trigger', this.currentRoutine()),
+        tabContent: routineTransform('trigger', this.selectedRoutine() ?? new EmptyRoutine()),
       },
       {
         key: 'action',
         title: 'Actions',
-        tabContent: routineTransform('action', this.currentRoutine()),
+        tabContent: routineTransform('action', this.selectedRoutine() ?? new EmptyRoutine()),
       },
       {
         key: 'notification',
         title: 'Notification',
-        tabContent: routineTransform('notification', this.currentRoutine())
+        tabContent: routineTransform('notification', this.selectedRoutine() ?? new EmptyRoutine())
       },
     ];
   });
   public currentTab = computed(() => this.routineFields()[this.selectedIndex()]);
 
-  public selectedSensors = computed(() => this.currentRoutine().triggers.map((t: any) => {
+  public selectedSensors = computed(() => this.selectedRoutine()?.triggers.map((t: any) => {
     return t.isGroup && t.group ? t.group.id : t.device?.id ?? '';
   }));
 
-  public selectedActuators = computed(() => this.currentRoutine().actions.map((a: any) => {
+  public selectedActuators = computed(() => this.selectedRoutine()?.actions.map((a: any) => {
     return a.isGroup && a.group ? a.group.id : a.device?.id ?? '';
   }));
 
@@ -145,6 +143,24 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
         if(command === LocalCommandTypes.NEXT){
           this.selectedIndex.update((value) => value >= 3 ? 3 : value + 1);
         }
+    }));
+    this._subs.add(this.commandExecutor.requestCommand$.pipe(
+      filter(event => event != null && event.trim() !== ''),
+      switchMap((event) => this.genericService.processCommand(event))
+    ).subscribe(response => {
+          
+      if(response.functionName ===  commandType.SET_NAME){
+        if('name' in response.parameters){
+          const name = response.parameters.name as string;          
+          if(!name || name.trim() === ''){
+            return this.commandExecutor.status$.next('error');
+          }
+     
+          return this.commandExecutor.status$.next('success');
+        }     
+        return this.commandExecutor.status$.next('error');
+        
+      }
     }));
   }
   ngOnDestroy(): void {

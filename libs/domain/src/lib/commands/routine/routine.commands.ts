@@ -1,6 +1,7 @@
 import { EntityType } from "../../generic";
 import { RoutineEntity,  defaultNotification,  generateDefaultCondition, getDeviceInRoutine, updateTriggerState } from "../../models";
 import { EmptyRoutine } from "../../models";
+import Fuse from 'fuse.js';
 
 export const changeStateCommand = (params : {isEnabled: boolean}, routine: RoutineEntity) => {
     routine.isEnabled = params.isEnabled;
@@ -12,7 +13,17 @@ export const createRoutineCommand = () => {
 }
 
 export const getRoutineByNameCommand = (params : {name: string, routines: Array<RoutineEntity>}) => {
-    return params.routines.find(routine => routine.name.trim().toLocaleLowerCase() === params.name.trim().toLocaleLowerCase());
+    const name = params.name as string;    
+    console.log("line 17 params", params );
+    const options = {
+      includeScore: true,
+      keys: ['name']
+    }
+    const routineExpected = new Fuse<RoutineEntity>(params.routines, options).search(name)[0];
+    if(!routineExpected){
+        throw new Error("Routine not found");
+    }
+    return routineExpected.item;
 }
 export const setDeviceParamsCommand = (
     params : {
