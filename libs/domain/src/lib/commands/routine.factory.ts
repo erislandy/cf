@@ -21,8 +21,8 @@ import { BehaviorSubject, Observable } from "rxjs";
         "set-name": setNameCommand,
         "set-interval": setIntervalCommand
     }
-    execute(command: commandType, params: any, routine: RoutineEntity) {
-        const newRoutine = this.commands[command](params, routine);
+    execute(command: commandType, params: any) {
+        const newRoutine = {...this.commands[command](params, this.routineSelected$.getValue())};
         this.routineSelected$.next(newRoutine);
         return newRoutine;
     }

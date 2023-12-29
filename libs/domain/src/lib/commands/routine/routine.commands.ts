@@ -36,7 +36,15 @@ export const setDeviceParamsCommand = (
     }, 
     routine: RoutineEntity) => {
         const devices = params.type === "sensor" ? params.sensors : params.actuators;
-        const device = devices.find(device => device.name.trim().toLocaleLowerCase() === params.name.trim().toLocaleLowerCase());
+        const options = {
+            includeScore: true,
+            keys: ['name']
+          }
+          const deviceExpected = new Fuse(devices, options).search(params.name)[0];
+          if(!deviceExpected){
+              throw new Error("Device not found");
+          }
+          const device = deviceExpected.item;       
         if(device){
             let trigger = getDeviceInRoutine(device, routine);
             if(!trigger){
@@ -55,11 +63,16 @@ export const setDeviceParamsCommand = (
 }
 
 export const setIntervalCommand = (params : {dateIni: number, dateEnd: number},  routine: RoutineEntity ) => {
+    const now = new Date();
+    const cleanNow = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0).getTime();
     if (!routine.condition) {      
         routine.condition = generateDefaultCondition();
       }
       
-      routine.condition.activatedBetween = params;
+      routine.condition.activatedBetween = {
+        dateIni: params.dateIni + cleanNow,
+        dateEnd: params.dateEnd + cleanNow,
+      };
       return routine;
 }
 

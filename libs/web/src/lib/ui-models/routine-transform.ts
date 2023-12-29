@@ -5,7 +5,7 @@ export const routineTransform = (
     options: "info" | "trigger" | "action" | "notification",
     routineExpected: RoutineEntity) : DataFieldCommand[] => {
       const routine = routineExpected ?? new EmptyRoutine();
-
+      console.log("routineTransform", {routine});
         const transformer = {
             info: () => {
                 return [

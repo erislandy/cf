@@ -63,7 +63,7 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
   //Simple signals
   loading = signal(true);
   selectedIndex = signal(0);
-  selectedRoutine = toSignal(this.factory.getRoutine());
+  selectedRoutine = signal(new EmptyRoutine());
   
   //Complex signals 
   devices = toSignal<Array<SensorEntity | ActuatorEntity | GroupEntity>>(combineLatest([
@@ -100,6 +100,7 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
     title: string;
     tabContent: Array<DataFieldCommand>;
   }>>(() => {
+    console.log("updating routine fields");
      return [
       {
         key: 'info',
@@ -134,6 +135,9 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
   }));
 
   ngOnInit() {
+    this._subs.add(this.factory.getRoutine().subscribe(
+      (routine) => this.selectedRoutine.set(routine)));
+
     this._subs.add(this.commandExecutor.externalCommand$.pipe(
       filter((command: LocalCommandTypes | undefined) => command === LocalCommandTypes.BACK || command === LocalCommandTypes.NEXT))
       .subscribe((command) => {
@@ -148,18 +152,21 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
       filter(event => event != null && event.trim() !== ''),
       switchMap((event) => this.genericService.processCommand(event))
     ).subscribe(response => {
-          
-      if(response.functionName ===  commandType.SET_NAME){
-        if('name' in response.parameters){
-          const name = response.parameters.name as string;          
-          if(!name || name.trim() === ''){
-            return this.commandExecutor.status$.next('error');
-          }
-     
-          return this.commandExecutor.status$.next('success');
-        }     
-        return this.commandExecutor.status$.next('error');
-        
+      const functionName = response.functionName.replace("functions.", "") as commandType;
+      let parameters = response.parameters;
+      if(functionName === commandType.SET_DEVICE_PARAMS){
+        parameters = {
+          ...parameters,
+          sensors: this.sensors(), 
+          actuators: this.actuators()
+        }
+        console.log("parameters", parameters);
+      }
+      try {
+        this.factory.execute(functionName, parameters);
+        return this.commandExecutor.status$.next('success');
+      } catch (error) {
+        this.commandExecutor.status$.next('error');
       }
     }));
   }

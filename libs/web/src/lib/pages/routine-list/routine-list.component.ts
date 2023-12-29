@@ -47,14 +47,14 @@ export class RoutineListComponent implements OnInit, OnDestroy{
             commandType.GET_ROUTINE_BY_NAME, {
               name: (response.parameters as {name: string}).name,
               routines: this.routines()
-            }, new EmptyRoutine());
+            });
           this.router.navigate(['dashboard','routine', routineExpected.id]);      
           return this.commandExecutor.status$.next('success');
         }
   
         if(functionName ===  commandType.CREATE_ROUTINE){
           this.factory.execute(
-            commandType.CREATE_ROUTINE, {}, new EmptyRoutine());
+            commandType.CREATE_ROUTINE, {});
           this.router.navigate(['dashboard','routine', 'new']);      
           return this.commandExecutor.status$.next('success');
         }
