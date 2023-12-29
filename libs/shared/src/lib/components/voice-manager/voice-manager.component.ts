@@ -66,8 +66,9 @@ export class VoiceManagerComponent {
           this.state = VoiceButtonStates.TALKING;
           console.log('event: ', event);
           if(event.length === 0) return;
+          const beforeText = event.length > 2 ? event[event.length - 2][0].transcript : '';
           const newText = event[event.length - 1][0].transcript;
-          if(newText === this.message()) return;
+          if(newText === this.message() && beforeText !== this.message()) return;
           this.state = VoiceButtonStates.ACTIVE;
           this.commandExecutor.status$.next('loading');
           this.eventmessages$.next(newText);  
@@ -113,9 +114,8 @@ export class VoiceManagerComponent {
 
       if(localCommad.command === "setLanguage") 
         this.recognitionService.changeLanguage() 
-
-      this.commandExecutor.execute(localCommad.command as LocalCommandTypes);
-      this.commandExecutor.status$.next('success');
+        this.commandExecutor.execute(localCommad.command as LocalCommandTypes);
+        this.commandExecutor.status$.next('success');
     }  
     else {
       this.commandExecutor.request(event);

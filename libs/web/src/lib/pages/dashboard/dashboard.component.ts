@@ -1,8 +1,9 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommandExecutor, LocalCommandTypes, VoiceManagerComponent, WindmillHeaderComponent, WindmillSidebarComponent } from '@cf/shared';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'cf-dashboard',
@@ -16,20 +17,19 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   isSideMenuOpen = false;
   dark = signal(false);
 
   commandExecutor = inject(CommandExecutor);
-  command = toSignal<LocalCommandTypes | undefined>(this.commandExecutor.externalCommand$);
      
   router = inject(Router);
-  constructor(){
-    effect(() => {
-      console.log("si se ejecuto el comando rutinas: ", this.command())
-      if(this.command() && this.command() === LocalCommandTypes.GO_ROUTINES)
+  ngOnInit(): void {
+    this.commandExecutor.externalCommand$.subscribe((command) => {
+      console.log("si se ejecuto el comando rutinas: ", command)
+      if(command && command === LocalCommandTypes.GO_ROUTINES)
         this.router.navigate(['/dashboard/routines']);
-      if(this.command() && this.command() === LocalCommandTypes.GO_COMMANDS){
+      if(command && command === LocalCommandTypes.GO_COMMANDS){
         this.router.navigate(['/dashboard/commands']);
       }
     });

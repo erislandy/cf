@@ -12,7 +12,8 @@ import { CustomTabsItemComponent } from '../custom-tabs-item/custom-tabs-item.co
 })
 export class CustomTabsComponent implements OnChanges {
   @Input({required: true}) tabs: Array<TabItem> = [];
-  @Output() tabsChanged: EventEmitter<number> = new EventEmitter<number>();
+  @Input() activeTab: number = 0;
+  @Output() activeTabChange: EventEmitter<number> = new EventEmitter<number>();
 
   routineSteps: Array<{
     title: string;
@@ -29,10 +30,14 @@ export class CustomTabsComponent implements OnChanges {
         isActive: index === 0,
       }));
     }
+    if (changes['activeTab'] && changes['activeTab'].currentValue) {
+      this.activeTab = changes['activeTab'].currentValue;
+      this.routineSteps.forEach((element, index) =>element.isActive = index === this.activeTab);
+    }
   }
   onTabClick(tabIndex: number) {
     this.routineSteps.forEach((element, index) =>element.isActive = index === tabIndex);
-    this.tabsChanged.emit(tabIndex);
+    this.activeTabChange.emit(tabIndex);
   }
 }
 

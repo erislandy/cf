@@ -20,7 +20,7 @@ const translates = {
   'ES': {
     'Save': 'Guardar',
     'Next': 'Siguiente',
-    'Back': 'Atras',
+    'Back': 'Anterior',
     'Change Language': 'Cambiar Idioma',
     'Save the current routine': 'Guardar la rutina actual',
     'Go to the next step in rountine': 'Ir al siguiente paso en la rutina',

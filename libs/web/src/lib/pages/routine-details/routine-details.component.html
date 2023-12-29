@@ -1,5 +1,8 @@
 <section class="relative -mt-16 h-[60vh] flex flex-col justify-start items-center">
-  <cf-custom-tabs [tabs]="routineSteps" (tabsChanged)="onTabsChanged($event)" />
+  <cf-custom-tabs 
+    [tabs]="routineSteps" 
+    [activeTab]="selectedIndex()"
+    (activeTabChange)="onTabsChanged($event)" />
   
   <!--Tab content-->
   <div
@@ -31,7 +34,7 @@
     </div>
     @if(currentTab().key === 'trigger' || currentTab().key === 'action'){
       <cf-devices 
-        [devices]="currentTab().key === 'trigger' ? sensors : actuators" 
+        [devices]="currentTab().key === 'trigger' ? sensors() : actuators()" 
         [selectedDevices]="currentTab().key === 'trigger' ? selectedSensors() : selectedActuators()"
         [deviceType]="currentTab().key === 'trigger' ? 'Sensors' : 'Actuators'"
 

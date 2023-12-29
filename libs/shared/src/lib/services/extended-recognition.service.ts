@@ -59,6 +59,7 @@ export class ExtendedRecognitionService extends Observable<SpeechRecognitionResu
     if (this.speechRecognition) {
       this.speechRecognition.abort();
       this._subscriber.unsubscribe();
+      
     }
   }
 }

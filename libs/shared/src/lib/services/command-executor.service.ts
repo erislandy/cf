@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, filter, scan } from "rxjs";
+import { BehaviorSubject, Observable, Subject, filter, scan } from "rxjs";
 import { LocalCommandTypes } from "./get-local-commands";
 
 @Injectable({
     providedIn: 'root',
 })
 export class CommandExecutor {
-    externalCommand$ = new BehaviorSubject<LocalCommandTypes | undefined>(undefined);
-    requestCommand$ = new BehaviorSubject<string>('');  
+    externalCommand$ = new Subject<LocalCommandTypes | undefined>();
+    requestCommand$ = new Subject<string>();  
     status$ = new BehaviorSubject<string>('');
     execute(command: LocalCommandTypes) {
         this.externalCommand$.next(command);
