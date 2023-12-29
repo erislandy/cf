@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Configuration, EntityType, GenericEntity, GenericRepository } from '@cf/domain';
-import { Observable,  map } from 'rxjs';
+import { Observable,  map, tap } from 'rxjs';
 
 
 @Injectable()
@@ -75,5 +75,19 @@ export class GenericService<T extends GenericEntity> extends GenericRepository<T
       );
     }
     return urlParts.join('');
+  }
+
+  processCommand(command: string): Observable<{functionName: string; parameters: object}> {
+    return this.http.post<{res: {role: string, content: string}}>(
+      'https://ctrlplus-cruds-azure-functions-counters-dev.azurewebsites.net/api/VoiceCommands?operation=command',
+      {
+        command_text: command
+      }).pipe(
+        map((response) => {
+           const data =  response.res.content.replace(/json\s*/, '').replace(/```/g, '');
+           const obj = JSON.parse(data);
+          return obj as {functionName: string; parameters: object}
+        })
+      );
   }
 }

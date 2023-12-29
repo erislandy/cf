@@ -7,9 +7,9 @@ import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
 import { actuators, sensors } from './mock-data';
 import { ActivatedRoute } from '@angular/router';
-import { of, switchMap } from 'rxjs';
-import { routines } from './mock-data';
-import { EmptyRoutine, RoutineEntity } from '@cf/domain';
+import {  EntityType, GenericUseCase, RoutineEntity } from '@cf/domain';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'cf-routine-details',
@@ -62,10 +62,18 @@ export class RoutineDetailsComponent {
   }> = [];
   
   private route = inject(ActivatedRoute); 
+  genericService = inject(GenericUseCase<RoutineEntity>);
+  loading = signal(true);
+  currentRoutine = toSignal(
+    this.route.params.pipe(
+      switchMap(({id}) => this.genericService.getOneGeneric(id,EntityType.ROUTINE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be')),
+      tap((data) => {        
+          console.log({data});
+          this.loading.set(false);          
+      }))
+  );
   
   public selectedIndex = signal(0);
-  public currentRoutine = signal<RoutineEntity>(new EmptyRoutine());
-
   public routineFields = computed<Array<{
     key: string;
     title: string;
@@ -96,25 +104,19 @@ export class RoutineDetailsComponent {
   });
   public currentTab = computed(() => this.routineFields()[this.selectedIndex()]);
 
-  public selectedSensors = computed(() => this.currentRoutine().triggers.map((t) => {
+  public selectedSensors = computed(() => this.currentRoutine().triggers.map((t: any) => {
     return t.isGroup && t.group ? t.group.id : t.device?.id ?? '';
   }));
 
-  public selectedActuators = computed(() => this.currentRoutine().actions.map((a) => {
+  public selectedActuators = computed(() => this.currentRoutine().actions.map((a: any) => {
     return a.isGroup && a.group ? a.group.id : a.device?.id ?? '';
   }));
 
 
   constructor() {
     this.sensors = sensors;
-    this.actuators = actuators;    
-    this.route.params.pipe(
-      switchMap(({id}) => {
-        const routine =
-          routines.find((r) => r.id === id) || new EmptyRoutine();
-        return of(routine as RoutineEntity);
-      })).subscribe((routine) => this.currentRoutine.set(routine));
-  }  
+    this.actuators = actuators; 
+   }  
 
   onTabsChanged(selectedTabIndex: number) {
     this.selectedIndex.set(selectedTabIndex);

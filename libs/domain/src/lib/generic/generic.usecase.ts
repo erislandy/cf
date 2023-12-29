@@ -49,4 +49,9 @@ export class GenericUseCase<T> extends UseCase<GenericRepository<T>> {
   ): Observable<boolean> {
     return this.getRepository.updateGenericInTwin(hubDeviceId, propertyName, data);
   };
+
+  
+  processCommand(command: string): Observable<{functionName: string; parameters: object}>{
+    return this.getRepository.processCommand(command);
+  }
 }

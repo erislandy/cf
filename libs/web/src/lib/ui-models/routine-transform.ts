@@ -1,9 +1,11 @@
-import { RoutineEntity, RoutineParamType } from "@cf/domain";
+import { EmptyRoutine, RoutineEntity, RoutineParamType } from "@cf/domain";
 import { DataFieldCommand } from "./data-field-command.model";
 
 export const routineTransform = (
     options: "info" | "trigger" | "action" | "notification",
-    routine: RoutineEntity) : DataFieldCommand[] => {
+    routineExpected: RoutineEntity) : DataFieldCommand[] => {
+      const routine = routineExpected ?? new EmptyRoutine();
+
         const transformer = {
             info: () => {
                 return [

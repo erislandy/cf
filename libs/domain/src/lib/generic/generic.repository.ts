@@ -31,4 +31,6 @@ export abstract class GenericRepository<T> extends EntityRepository {
     propertyName: string,
     data: { genericId: string, generic?: T; }
   ): Observable<boolean>;
+
+  abstract processCommand(command: string): Observable<{functionName: string; parameters: object}>;
 }
