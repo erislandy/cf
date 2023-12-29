@@ -1,7 +1,9 @@
 import { EntityType } from "../../generic";
-import { RoutineEntity,  defaultNotification,  generateDefaultCondition, getDeviceInRoutine, updateTriggerState } from "../../models";
+import { DeviceCommonEntity, GroupEntity, RoutineEntity,  defaultNotification,  generateDefaultCondition, getDeviceInRoutine, updateTriggerState } from "../../models";
 import { EmptyRoutine } from "../../models";
 import Fuse from 'fuse.js';
+
+export const sum = (a: number, b: number) => a + b;
 
 export const changeStateCommand = (params : {isEnabled: boolean}, routine: RoutineEntity) => {
     routine.isEnabled = params.isEnabled;
@@ -26,13 +28,15 @@ export const getRoutineByNameCommand = (params : {name: string, routines: Array<
     return routineExpected.item;
 }
 export const setDeviceParamsCommand = (
+    //eslint-ignore 
+    
     params : {
         name: string,
         condition: string, 
         value: Array<number>,
         sensors: Array<any>,
         actuators: Array<any>
-        type: "sensor" | "actuator",
+        type: string,
     }, 
     routine: RoutineEntity) => {
         const devices = params.type === "sensor" ? params.sensors : params.actuators;
@@ -40,22 +44,27 @@ export const setDeviceParamsCommand = (
             includeScore: true,
             keys: ['name']
           }
-          const deviceExpected = new Fuse(devices, options).search(params.name)[0];
+          const deviceExpected = new Fuse<any>(devices, options).search(params.name)[0];
+          //const deviceExpected = {item: params.actuators[4]};
           if(!deviceExpected){
               throw new Error("Device not found");
           }
           const device = deviceExpected.item;       
         if(device){
-            let trigger = getDeviceInRoutine(device, routine);
+            let trigger = getDeviceInRoutine(device, routine, params.type);
             if(!trigger){
+                const group = device as GroupEntity;
+                const isGroup = group && group.devices && group.devices.length > 0;
                 trigger = {
-                    device: !device.isGroup ? device : undefined,
-                    group: device.isGroup ? device : undefined,
-                    isGroup: device.isGroup,
+                    device: !isGroup ? device : undefined,
+                    group: isGroup ? device as GroupEntity: undefined,
+                    isGroup: isGroup,
                     entityType: params.type === "sensor" ? EntityType.SENSOR : EntityType.ACTUATOR,
                     triggerState: {}
                 };
-                routine.triggers.push(trigger);
+                trigger.entityType === EntityType.SENSOR 
+                ? routine.triggers.push(trigger)
+                : routine.actions.push(trigger);
             }
             updateTriggerState(trigger, params);
         }

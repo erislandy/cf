@@ -6,10 +6,11 @@ import { DataFieldCommand, routineTransform } from '../../ui-models';
 import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
 import { ActivatedRoute } from '@angular/router';
-import {  ActuatorEntity, EmptyRoutine, EntityType, GenericUseCase, GroupEntity, RoutineEntity, RoutineFactory, commandType } from '@cf/domain';
+import {  ActuatorEntity, DeviceEntity, EmptyRoutine, EntityType, GenericUseCase, GroupEntity, RoutineEntity, RoutineFactory, commandType } from '@cf/domain';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subscription, combineLatest, filter, map, switchMap, tap } from 'rxjs';
 import { SensorEntity } from '@cf/domain';
+import { group } from 'console';
 
 @Component({
   selector: 'cf-routine-details',
@@ -66,35 +67,47 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
   selectedRoutine = signal(new EmptyRoutine());
   
   //Complex signals 
-  devices = toSignal<Array<SensorEntity | ActuatorEntity | GroupEntity>>(combineLatest([
+  mainData = toSignal<{
+    sensors: Array<SensorEntity>, 
+    actuators: Array<ActuatorEntity>,
+    groups: Array<GroupEntity>,
+    devices: Array<DeviceEntity>
+  }>(combineLatest([
     this.genericService.getGenerics(EntityType.SENSOR, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'),
     this.genericService.getGenerics(EntityType.ACTUATOR, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'),
-    this.genericService.getGenerics(EntityType.GROUP_TYPE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be')    
+    this.genericService.getGenerics(EntityType.GROUP_TYPE, 'e563c6a6-b3d4-4eec-acd4-426d2b7615be'),
+    this.genericService.getGenerics(EntityType.DEVICE)    
   ]).pipe(
-    map(([sensors, actuators, groups]) => sensors.concat(actuators).concat(groups)),
-    tap(() => this.loading.set(false))));
+      map(([sensors, actuators, groups, devices]) => ({sensors, actuators, groups, devices})),
+      tap(() => this.loading.set(false)))
+    );
 
-  sensors = computed(() => this.devices()?.filter(d => 
-      d.entityType === EntityType.SENSOR ||  
-      (d.entityType === EntityType.GROUP_TYPE && 
-       (d as GroupEntity).type.deviceType === 'sensor')
-      ).map(d => ({
-      id: d.id as string,
-      name: d.name as string,
-      nodeRedId: (d as SensorEntity).nodeRedId ?? '',
-      selected: false
-    })) ?? []);
-    actuators = computed(() => this.devices()?.filter(d => 
-      d.entityType === EntityType.ACTUATOR ||  
-      (d.entityType === EntityType.GROUP_TYPE && 
-       (d as GroupEntity).type.deviceType === 'actuator')
-      ).map(d => ({
-      id: d.id as string,
-      name: d.name as string,
-      nodeRedId: (d as ActuatorEntity).nodeRedId ?? '',
-      selected: false
-    })) ?? []);
-    
+  sensors = computed(() => this.mainData()?.sensors.map(s => 
+      {
+        const device = this.mainData()?.devices.find(d => s.deviceData && d.id === s.deviceData.id);
+        return ({
+          ...s,
+          deviceData: device,
+          selected: false
+        });
+      })
+      .concat(this.mainData()?.groups.filter(g => g.type.deviceType === 'sensor')
+                              .map(g => ({...g, name: `${g.name} (Group)`, selected: false})) as Array<any>)
+  )
+  actuators = computed(() => this.mainData()?.actuators.map(a => 
+    {
+      const device = this.mainData()?.devices.find(d => a.deviceData && d.id === a.deviceData.id);
+      return ({
+        ...a,
+        deviceData: device,
+        selected: false
+      });
+    })
+    .concat(this.mainData()?.groups.filter(g => g.type.deviceType === 'actuator')
+                            .map(g => ({...g, name: `${g.name} (Group)`, selected: false})) as Array<any>)
+)
+
+
   routineFields = computed<Array<{
     key: string;
     title: string;

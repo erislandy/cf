@@ -34,7 +34,7 @@
     </div>
     @if(currentTab().key === 'trigger' || currentTab().key === 'action'){
       <cf-devices 
-        [devices]="currentTab().key === 'trigger' ? sensors() : actuators()" 
+        [devices]="currentTab().key === 'trigger' ? sensors() ?? [] : actuators() ?? []" 
         [selectedDevices]="currentTab().key === 'trigger' ? selectedSensors() ?? [] : selectedActuators() ?? []"
         [deviceType]="currentTab().key === 'trigger' ? 'Sensors' : 'Actuators'"
 

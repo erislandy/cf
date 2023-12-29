@@ -86,7 +86,7 @@ export const routineTransform = (
                     required: false,
                     label: 'Email notification: ',
                     type: 'group',
-                    value: ['Push notifications', 'Email notifications', 'SMS notifications'],
+                    value: [routine.notification.type],
                     state: 'valid',
                 }
             ]

@@ -11,12 +11,7 @@ import { SvgLoaderComponent } from '@cf/shared';
 })
 export class DevicesComponent implements OnChanges{
  
-  @Input({ required: true }) devices: Array<{
-    id: string;
-    nodeRedId: string;
-    name: string;
-    selected: boolean;
-  }> = [];
+  @Input({ required: true }) devices: Array<any> = [];
   @Input() selectedDevices: Array<string | undefined> = [];
   @Input({required: true}) deviceType!: string; 
 

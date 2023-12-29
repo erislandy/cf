@@ -30,7 +30,7 @@ export type RoutineNotificationType = {
 export type RoutineParamType = {
   // isGroup: boolean;
   isGroup: boolean;
-  entityType: EntityType;
+  entityType: string;
   group?: GroupEntity;
   device?: ActuatorEntity | SensorEntity;
   triggerState: any;
