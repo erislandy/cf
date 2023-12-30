@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Configuration, EntityType, GenericEntity, GenericRepository } from '@cf/domain';
-import { Observable,  map, tap } from 'rxjs';
+import { parseJsonObjects } from '@cf/shared';
+import { Observable,  from,  map, mergeMap, tap } from 'rxjs';
+
 
 
 @Injectable()
@@ -85,9 +87,14 @@ export class GenericService<T extends GenericEntity> extends GenericRepository<T
       }).pipe(
         map((response) => {
            const data =  response.res.content.replace(/json\s*/, '').replace(/```/g, '');
-           const obj = JSON.parse(data);
-          return obj as {functionName: string; parameters: object}
-        })
+           console.log(data);
+           return JSON.parse(data);
+        }),
+        mergeMap(arrayObjects => from(arrayObjects as Array<{ functionName: string; parameters: object }>)),
+        tap((data) => console.log("dataFormated",{data}))
+        
       );
   }
 }
+
+

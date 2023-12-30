@@ -5,12 +5,13 @@ import { SvgLoaderComponent } from '@cf/shared';
 import { DataFieldCommand, routineTransform } from '../../ui-models';
 import { DevicesComponent, SimpleDatafieldComponent } from '../../components';
 import { GroupDatafieldComponent } from '../../components/group-datafield/group-datafield.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {  ActuatorEntity, DeviceEntity, EmptyRoutine, EntityType, GenericUseCase, GroupEntity, RoutineEntity, RoutineFactory, commandType } from '@cf/domain';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Subscription, combineLatest, filter, map, switchMap, tap } from 'rxjs';
 import { SensorEntity } from '@cf/domain';
 import { group } from 'console';
+import { mapFromRoutinesToDB } from '../../helpers/routine.mapper';
 
 @Component({
   selector: 'cf-routine-details',
@@ -60,6 +61,7 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
   genericService = inject(GenericUseCase<RoutineEntity>);
   commandExecutor = inject(CommandExecutor);
   factory = inject(RoutineFactory);
+  router = inject(Router);
   
   //Simple signals
   loading = signal(true);
@@ -182,6 +184,19 @@ export class RoutineDetailsComponent implements OnInit, OnDestroy {
         this.commandExecutor.status$.next('error');
       }
     }));
+
+    this._subs.add(this.commandExecutor.externalCommand$.pipe(
+      filter((command: LocalCommandTypes | undefined) => command === LocalCommandTypes.SAVE),
+      switchMap(() => {
+        const routine = mapFromRoutinesToDB(this.selectedRoutine());
+        return routine.id !== "new" 
+        ? this.genericService.createGeneric(routine,"e563c6a6-b3d4-4eec-acd4-426d2b7615be")
+        : this.genericService.updateGeneric(routine, "e563c6a6-b3d4-4eec-acd4-426d2b7615be")
+      }))
+      .subscribe(() => {
+        this.router.navigate(['/']);
+    }));    
+    
   }
   ngOnDestroy(): void {
     this._subs.unsubscribe();
