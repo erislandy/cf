@@ -21,8 +21,11 @@
       "@cf/shared": ["libs/shared/src/index.ts"],
       "@cf/web": ["libs/web/src/index.ts"],
       "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"],
+      "@engadi-solution/test3": ["libs/test33/src/index.ts"],
+      "@engadi-solutions/test": ["libs/test/src/index.ts"],
       "@engadi-soutions/infrastructure": ["libs/infrastructure/src/index.ts"]
-    }
+    },
+    "types": ["node"]
   },
   "exclude": ["node_modules", "tmp"]
 }

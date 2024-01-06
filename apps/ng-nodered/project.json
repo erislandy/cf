@@ -1,30 +1,27 @@
 {
-  "name": "voice-command",
+  "name": "ng-nodered",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "cf",
-  "sourceRoot": "apps/voice-command/src",
+  "sourceRoot": "apps/ng-nodered/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/voice-command",
-        "index": "apps/voice-command/src/index.html",
-        "browser": "apps/voice-command/src/main.ts",
+        "outputPath": "dist/apps/ng-nodered",
+        "index": "apps/ng-nodered/src/index.html",
+        "browser": "apps/ng-nodered/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/voice-command/tsconfig.app.json",
+        "tsConfig": "apps/ng-nodered/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "apps/voice-command/src/favicon.ico",
-          "apps/voice-command/src/assets"
+          "apps/ng-nodered/src/favicon.ico",
+          "apps/ng-nodered/src/assets"
         ],
-        "styles": ["apps/voice-command/src/styles.scss"],
-        "scripts": [],
-        "customWebpackConfig": {
-          "path": "apps/voice-command/webpack.config.js"
-        }
+        "styles": ["apps/ng-nodered/src/styles.scss"],
+        "scripts": []
       },
       "configurations": {
         "production": {
@@ -40,16 +37,10 @@
               "maximumError": "4kb"
             }
           ],
-          "fileReplacements": [
-            {
-              "replace": "apps/voice-command/src/environments/environment.ts",
-              "with": "apps/voice-command/src/environments/environment.prod.ts"
-            }
-          ],
           "outputHashing": "all"
         },
         "development": {
-          "optimization": true,
+          "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
         }
@@ -60,10 +51,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "voice-command:build:production"
+          "buildTarget": "ng-nodered:build:production"
         },
         "development": {
-          "buildTarget": "voice-command:build:development"
+          "buildTarget": "ng-nodered:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -71,7 +62,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "voice-command:build"
+        "buildTarget": "ng-nodered:build"
       }
     },
     "lint": {
@@ -79,8 +70,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "apps/voice-command/**/*.ts",
-          "apps/voice-command/**/*.html"
+          "apps/ng-nodered/**/*.ts",
+          "apps/ng-nodered/**/*.html"
         ]
       }
     },
@@ -88,7 +79,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/voice-command/jest.config.ts"
+        "jestConfig": "apps/ng-nodered/jest.config.ts"
       }
     }
   }
