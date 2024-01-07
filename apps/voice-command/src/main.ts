@@ -4,10 +4,10 @@ import { AppComponent } from './app/app.component';
 import { environment } from './environments/environment';
 import { enableProdMode } from '@angular/core';
  
+console.log('Environment: ', environment);
   if (environment.production) {
     enableProdMode();
   }
-  console.log("mode",process.env['mode'])
 bootstrapApplication(AppComponent, appConfig).catch((err) =>
   console.error(err)
 );

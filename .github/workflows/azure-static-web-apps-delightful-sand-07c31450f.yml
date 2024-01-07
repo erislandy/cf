@@ -42,6 +42,8 @@ jobs:
           output_location: "dist/apps/voice-command/browser" # Built app content directory - optional
           skip_api_build: true
           ###### End of Repository/Build Configurations ######
+          env: # Add environment variables here
+            VAR_NAME: "A ver si pasa"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'

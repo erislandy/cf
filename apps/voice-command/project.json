@@ -8,19 +8,25 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/voice-command",
         "index": "apps/voice-command/src/index.html",
         "browser": "apps/voice-command/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/voice-command/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           "apps/voice-command/src/favicon.ico",
           "apps/voice-command/src/assets"
         ],
-        "styles": ["apps/voice-command/src/styles.scss"],
+        "styles": [
+          "apps/voice-command/src/styles.scss"
+        ],
         "scripts": []
       },
       "configurations": {
@@ -40,7 +46,7 @@
           "fileReplacements": [
             {
               "replace": "apps/voice-command/src/environments/environment.ts",
-              "with": "apps/voice-command/src/environments/environment.prod.ts"
+              "with": "apps/voice-command/src/environments/environment.onprem.ts"
             }
           ],
           "outputHashing": "all"
@@ -49,15 +55,23 @@
           "optimization": false,
           "extractLicenses": false,
           "sourceMap": true
+        },
+        "onprem": {
+          "fileReplacements": [
+            {
+              "replace": "apps/voice-command/src/environments/environment.ts",
+              "with": "apps/voice-command/src/environments/environment.onprem.ts"
+            }
+          ]
         }
       },
-      "defaultConfiguration": "production"
+      "defaultConfiguration": "onprem"
     },
     "serve": {
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "voice-command:build:production"
+          "buildTarget": "voice-command:build:onprem"
         },
         "development": {
           "buildTarget": "voice-command:build:development"
@@ -73,7 +87,9 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
         "lintFilePatterns": [
           "apps/voice-command/**/*.ts",
@@ -83,9 +99,17 @@
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
       "options": {
         "jestConfig": "apps/voice-command/jest.config.ts"
+      }
+    },
+    "collect-vars": {
+      "executor": "ng-process-env:collectVars",
+      "options": {
+        "environmentFile": "apps/voice-command/src/environments/environment.onprem.ts"
       }
     }
   }
