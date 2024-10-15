@@ -1,0 +1,26 @@
+[
+    {
+        "command": "get-routine-by-name",
+        "texto": "Retrieve routine named SUMMER FITNESS"
+    },
+    {
+        "command": "get-routine-by-name",
+        "texto": "Find the routine called MORNING YOGA"
+    },
+    {
+        "command": "get-routine-by-name",
+        "texto": "Search for the routine titled EVENING MEDITATION"
+    },
+    {
+        "command": "get-routine-by-name",
+        "texto": "Get details of routine WEEKEND PILATES"
+    },
+    {
+        "command": "get-routine-by-name",
+        "texto": "Fetch the routine CARDIO BLAST SESSION"
+    },
+    {
+        "command": "get-routine-by-name",
+        "texto": "Access information of the routine INTENSE ABS WORKOUT"
+    }
+]

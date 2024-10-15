@@ -1,0 +1,30 @@
+[
+    {
+        "command": "set-name",
+        "texto": "Set name to HOUSE 1 MIST GROUP 1"
+    },
+    {
+        "command": "set-name",
+        "texto": "The name of routine is HOUSE 1 MIST GROUP 1"
+    },
+    {
+        "command": "set-name",
+        "texto": "Change routine name to FITNESS CHALLENGE ALPHA"
+    },
+    {
+        "command": "set-name",
+        "texto": "Update name as WEEKLY YOGA SESSION"
+    },
+    {
+        "command": "set-name",
+        "texto": "New routine name should be MORNING CARDIO BLAST"
+    },
+    {
+        "command": "set-name",
+        "texto": "Assign the name EVENING RELAXATION ROUTINE to this routine"
+    },
+    {
+        "command": "set-name",
+        "texto": "Routine's new name is SUMMER BODY WORKOUT PLAN"
+    }
+]

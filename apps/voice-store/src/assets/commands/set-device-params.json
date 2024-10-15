@@ -1,0 +1,27 @@
+[
+    {
+        "command": "set-device-params",
+        "texto": "The Rain sensor is activated",
+        "name": "Rain",
+        "condition": "ON", 
+        "value": [1],
+        "type":"sensor"
+    },
+    {
+        "command": "set-device-params",
+        "texto": "The sensor name Temperature zone 1 is above 30",
+        "name": "Temperature zone 1",
+        "condition": "above", 
+        "value": [30],
+        "type":"sensor"
+    },
+    {
+        "command": "set-device-params",
+        "texto": "Turn the Light actuator off.",
+        "name": "Light",
+        "condition": "OFF", 
+        "value": [0],
+        "type":"actuator"
+    }
+    
+]

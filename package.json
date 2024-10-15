@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "voice-command:start": "npx nx run voice-command:serve --port 4204 --host 0.0.0.0",
-    "voice-command:build": "yarn nx run voice-command:collect-vars && yarn nx run voice-command:build"
+    "voice-command:build": "yarn nx run voice-command:collect-vars && yarn nx run voice-command:build",
+    "voice-store:build": "yarn nx run voice-store:build"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +20,7 @@
     "@angular/router": "~17.0.0",
     "@azure/msal-angular": "^3.0.9",
     "@azure/msal-browser": "^3.6.0",
+    "@directus/sdk": "^17.0.2",
     "@ng-web-apis/common": "^3.0.6",
     "@ng-web-apis/speech": "^3.0.7",
     "@nx/angular": "17.1.3",

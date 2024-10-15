@@ -1,0 +1,26 @@
+[
+    {
+        "command": "create-routine",
+        "texto": "Initiate a new routine"
+    },
+    {
+        "command": "create-routine",
+        "texto": "Start creation of a fresh routine"
+    },
+    {
+        "command": "create-routine",
+        "texto": "Begin a new routine setup"
+    },
+    {
+        "command": "create-routine",
+        "texto": "Generate a new routine instance"
+    },
+    {
+        "command": "create-routine",
+        "texto": "Create a default routine"
+    },
+    {
+        "command": "create-routine",
+        "texto": "Establish a new routine with standard settings"
+    }
+]

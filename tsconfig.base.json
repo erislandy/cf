@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@cf/directus-infrastructure": [
+        "libs/directus-infrastructure/src/index.ts"
+      ],
       "@cf/domain": ["libs/domain/src/index.ts"],
       "@cf/domain-test": ["libs/domain-test/src/index.ts"],
       "@cf/ifrastructure": ["libs/infrastructure/src/index.ts"],

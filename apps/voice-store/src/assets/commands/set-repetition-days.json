@@ -1,0 +1,59 @@
+[
+    {
+        "command": "set-repetition-days",
+        "texto": "Set routine to repeat on Mondays and Wednesdays",
+        "activeDays": [
+            1,
+            3
+        ]
+    },
+    {
+        "command": "set-repetition-days",
+        "texto": "Routine should repeat on weekends",
+        "activeDays": [
+            0,
+            6
+        ]
+    },
+    {
+        "command": "set-repetition-days",
+        "texto": "Schedule routine for every weekday",
+        "activeDays": [
+            1,
+            2,
+            3,
+            4,
+            5
+        ]
+    },
+    {
+        "command": "set-repetition-days",
+        "texto": "Assign routine to Tuesdays and Thursdays",
+        "activeDays": [
+            2,
+            4
+        ]
+    },
+    {
+        "command": "set-repetition-days",
+        "texto": "Routine repetition on Monday, Wednesday, and Friday",
+        "activeDays": [
+            1,
+            3,
+            5
+        ]
+    },
+    {
+        "command": "set-repetition-days",
+        "texto": "Set routine for daily repetition",
+        "activeDays": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+        ]
+    }
+]
