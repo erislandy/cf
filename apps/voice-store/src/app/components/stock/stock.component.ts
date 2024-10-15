@@ -8,4 +8,10 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stock.component.html',
   styleUrl: './stock.component.scss',
 })
-export class StockComponent {}
+export class StockComponent implements OnInit {
+  isSideMenuOpen = false;
+  dark = signal(false);
+
+  commandExecutor = inject(CommandExecutor);
+     
+}

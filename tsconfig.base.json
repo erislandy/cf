@@ -22,6 +22,7 @@
       "@cf/domain-test": ["libs/domain-test/src/index.ts"],
       "@cf/ifrastructure": ["libs/infrastructure/src/index.ts"],
       "@cf/shared": ["libs/shared/src/index.ts"],
+      "@cf/store-domain": ["libs/store-domain/src/index.ts"],
       "@cf/web": ["libs/web/src/index.ts"],
       "@eg/angular-to-nodered-ui": ["libs/angular-to-nodered-ui/src/index.ts"],
       "@engadi-soutions/infrastructure": ["libs/infrastructure/src/index.ts"]
