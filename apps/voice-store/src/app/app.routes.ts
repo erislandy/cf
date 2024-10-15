@@ -1,14 +1,30 @@
 import { Route } from '@angular/router';
-import { StockComponent } from './components/stock/stock.component';
+import { 
+    DashboardComponent, 
+    LoginComponent, 
+    StockComponent, 
+    InboundComponent } from './components';
 import { AuthGuard } from '@cf/shared';
-import { LoginComponent } from './components/login/login.component';
-
 export const appRoutes: Route[] = [
     {
-        path: 'stock',
-        component: StockComponent,
+        path: 'dashboard',
+        component: DashboardComponent,
         canActivate: [AuthGuard],
-
+        children:[            
+            {
+                path: 'stock',
+                component: StockComponent
+            },
+            {
+                path: 'inbound',
+                component: InboundComponent
+            },
+            {
+                path: '',
+                redirectTo: 'stock',
+                pathMatch: 'full'
+            },
+        ]
     },
     {
         path: 'login',
@@ -16,7 +32,7 @@ export const appRoutes: Route[] = [
     }, 
     {
         path: '',
-        redirectTo: '/stock',
+        redirectTo: '/dashboard',
         pathMatch: 'full'
     }
 

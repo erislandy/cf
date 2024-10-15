@@ -3,15 +3,15 @@ import { Component } from "@angular/core";
 import { RouterOutlet } from "@angular/router";
 
 @Component({
-    selector: 'cf-stock',
+    selector: 'cf-inbound',
     standalone: true,
     imports: [
       CommonModule, 
       RouterOutlet,
     ],
-    templateUrl: './stock.component.html',
-    styleUrl: './stock.component.scss',
+    templateUrl: './inbound.component.html',
+    styleUrl: './inbound.component.scss',
   })
-export class StockComponent{
+export class InboundComponent{
 
 }

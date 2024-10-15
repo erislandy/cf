@@ -1,20 +1,13 @@
-import { Inject, Injectable } from "@angular/core";
-import { REST_API_URL } from "@cf/shared";
-import { authentication, createDirectus, rest } from '@directus/sdk';
+import { Injectable } from "@angular/core";
+import { DirectusService } from "./directus.service";
 
 @Injectable({
     providedIn: 'root',
   })
 export class AuthService {
     client: any;
-    constructor (@Inject(REST_API_URL) private _apiUrl: string) {        
-        this.client = createDirectus(_apiUrl)
-            .with(authentication('cookie', { credentials: 'include' }))
-            .with(rest({ credentials: 'include' }));
-        const accessToken = localStorage.getItem('accessToken');
-        if (accessToken) {
-            this.client.setToken(accessToken);
-        }
+    constructor (private _service: DirectusService) {        
+        this.client = _service.Client;
     }
     async login(username: string, password: string) {
         try{

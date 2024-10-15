@@ -1,12 +1,15 @@
-import { Component,   EventEmitter,   Input, Output,   } from '@angular/core';
+import { Component,   EventEmitter,   inject,   Input, OnInit, Output,   } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map } from 'rxjs';
+import { SvgLoaderComponent } from '../svg-loader/svg-loader.component';
 
 @Component({
   selector: 'cf-windmill-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, SvgLoaderComponent],
   templateUrl: './windmill-sidebar.component.html',
   styleUrl: './windmill-sidebar.component.scss',
   animations: 
@@ -48,10 +51,26 @@ import { RouterModule } from '@angular/router';
     ]
 })
 export class WindmillSidebarComponent {
+  
   @Input() isSideMenuOpen: boolean = true;
   @Output() isSideMenuOpenChange: EventEmitter<boolean> = new EventEmitter();
-  constructor(){    
-  }
+  router = inject(Router); 
+  menuItems = [
+    {link: 'stock', title: 'Almacen', icon: 'layers'},
+    {link: 'inbound', title: 'Compras', icon: 'trending-down'},
+    {link: 'sell', title: 'Ventas', icon: 'trending-up'},
+  ]
+  items = toSignal<Array<{link: string; isActive: boolean, title: string, icon: string}>>(this.router.events.pipe(
+    filter(event => event instanceof NavigationEnd),
+    map(() => {
+      const url = this.router.url; // Obtiene la URL actual
+      console.log({url})
+      return this.menuItems.map(m => ({
+        ...m,
+        isActive: url.includes(m.link)
+      }))
+    })
+  ))
   backdropClick(){
     this.isSideMenuOpenChange.emit(!this.isSideMenuOpen);
   }
