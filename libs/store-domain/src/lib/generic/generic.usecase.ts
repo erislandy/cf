@@ -3,12 +3,13 @@ import { UseCase } from '../base';
 import { EntityType } from './generic.entity';
 import { GenericRepository } from './generic.repository';
 import { GenericRepositoryFactory } from './generic.repository.factory';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GenericUseCase<T> extends UseCase<GenericRepository<T>> {
+  
   constructor (repositoryFactory: GenericRepositoryFactory<T>) {
     super(repositoryFactory);
   }
@@ -20,6 +21,9 @@ export class GenericUseCase<T> extends UseCase<GenericRepository<T>> {
     generic: T
   ): Observable<T> {
     return this.getRepository.createGeneric(generic);
+  }
+  getErrNotifier(): BehaviorSubject<{status: number, message: string}> {
+    return this.getRepository.getErrNotifier();
   }
 
   updateGeneric(

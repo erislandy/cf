@@ -5,3 +5,5 @@ export * from "./operation";
 export * from "./product-current-price";
 export * from "./employee";
 export * from "./stock";
+export * from "./store-product";
+export * from "./transaction";

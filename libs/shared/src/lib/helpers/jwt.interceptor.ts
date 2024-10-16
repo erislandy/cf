@@ -1,14 +1,12 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import {  Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { REST_API_URL } from './config';
 
 //import { AmplifyService } from 'aws-amplify-angular'
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   constructor () {
-    console.log('jwt interceptor init');
   }
 
   /**
@@ -18,7 +16,6 @@ export class JwtInterceptor implements HttpInterceptor {
    */
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const jwt = localStorage.getItem('accessToken');
-    console.log('jwt interceptor', jwt);
     const with_access_control = request.clone({
       setHeaders: {
         'Access-Control-Allow-Origin': '*'

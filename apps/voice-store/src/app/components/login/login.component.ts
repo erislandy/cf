@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loading = true;
     try {
       await this.authService.login(this.email, this.password);
-      this.router.navigate(['stock']);
+      this.router.navigate(['']);
     } catch (error) {
       console.error(error);
     } finally {

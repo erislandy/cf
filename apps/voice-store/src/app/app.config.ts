@@ -5,6 +5,8 @@ import { JwtInterceptor, REST_API_URL } from '@cf/shared';
 import { coreConfig } from './config';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async"
+import { GenericRepositoryFactory } from '@cf/store-domain';
+import { DirectusService, GenericService } from '@cf/directus-infrastructure';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +22,16 @@ export const appConfig: ApplicationConfig = {
       useClass: JwtInterceptor, 
       multi: true 
     },
+    {
+      provide: GenericRepositoryFactory,
+      useFactory: (directusService: DirectusService) =>
+        new GenericRepositoryFactory({
+          callback: () => {
+            return new GenericService(directusService);
+          },
+          params: {},
+        }),
+      deps: [ DirectusService],
+    }
   ],  
 };

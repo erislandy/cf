@@ -1,6 +1,6 @@
 //Export an abstract class named MDBRepository with CRUD methods for the GenericEntity.
 
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { EntityRepository } from '../base';
 import { EntityType } from './generic.entity';
 
@@ -12,7 +12,7 @@ export abstract class GenericRepository<T> extends EntityRepository {
   abstract createGeneric(
     Generic: T
   ): Observable<T>;
-
+  abstract getErrNotifier(): BehaviorSubject<{status: number, message: string}>; 
   abstract updateGeneric(
     Generic: T
   ): Observable<T>;
