@@ -3,8 +3,9 @@ import {
     DashboardComponent, 
     LoginComponent, 
     StockComponent, 
-    InboundComponent } from './components';
+    InboundComponent } from './pages';
 import { AuthGuard } from '@cf/shared';
+import { InboundCreateComponent } from './pages/inbound-create/inbound-create.component';
 export const appRoutes: Route[] = [
     {
         path: 'dashboard',
@@ -18,6 +19,10 @@ export const appRoutes: Route[] = [
             {
                 path: 'inbound',
                 component: InboundComponent
+            },
+            {
+                path: 'inbound/new',
+                component: InboundCreateComponent
             },
             {
                 path: '',

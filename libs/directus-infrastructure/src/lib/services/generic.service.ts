@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { EntityType, GenericEntity, GenericRepository } from '@cf/store-domain';
 import { BehaviorSubject, catchError, from, map, Observable,  of} from 'rxjs';
 import { DirectusService } from './directus.service';
-import { readItems } from '@directus/sdk';
+import { createItem, readItems } from '@directus/sdk';
 
 
 
@@ -43,7 +43,25 @@ export class GenericService<T extends GenericEntity> extends GenericRepository<T
     return of({} as T);
   }
   createGeneric(entity: T): Observable<T> {
-    return  of({} as T);
+    const newEntity: any = {...entity};
+    delete newEntity.entityType;
+    return  from(this.client.request(
+              createItem(
+                entity.entityType as never, 
+                newEntity as never
+              )))
+            .pipe(
+              map((response: any) => {
+                console.log({response})
+                return response
+              }),
+              catchError((error: {response: {status: number, statusText: string}}) => {       
+                console.log({error})
+                this.errAuthNotifier$.next({status: error.response.status, message: error.response.statusText});        
+                setTimeout(() => this.errAuthNotifier$.next({status: 0, message: ''}), 1000);
+                return of({} as T);
+              })
+            );
   }
   updateGeneric(entity: T): Observable<T> {
     return of({} as T);  

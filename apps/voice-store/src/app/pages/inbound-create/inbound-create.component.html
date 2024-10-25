@@ -1,0 +1,87 @@
+<div class="container grid px-2 mx-auto">
+    <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+        Nueva Compra
+    </h2>
+    <dx-data-grid [dataSource]="transactions">
+        <dxo-editing 
+            mode="row" 
+            [allowAdding]="true" 
+            [allowUpdating]="true" 
+            [allowDeleting]="true"
+            [useIcons]="true"
+            >            
+        </dxo-editing>
+        <dxi-column 
+            dataField="product" 
+            caption="Product"
+            width="*"
+            >
+            <dxi-validation-rule
+                type="required"
+                message="The product field is required."
+            ></dxi-validation-rule>
+            <dxo-lookup
+              [dataSource]="products()"
+              valueExpr="id"
+              displayExpr="name"
+            ></dxo-lookup>
+        </dxi-column>
+        <dxi-column 
+            dataField="amount" 
+            caption="Amount"
+            dataType="number"
+            editorOptions="{ 
+                min: 0, 
+            }">
+            <dxi-validation-rule
+                type="required"
+                message="The amount field is required.">
+            </dxi-validation-rule>
+        </dxi-column>
+        <dxi-column 
+            dataField="price" 
+            caption="Price"
+            dataType="number"
+            editorOptions="{ 
+                min: 0, 
+            }">
+            <dxi-validation-rule
+                type="required"
+                message="The price field is required.">
+            </dxi-validation-rule>
+        </dxi-column>
+        <dxi-column 
+            dataField="currency" 
+            caption="Currency">
+            <dxi-validation-rule
+                type="required"
+                message="The currency field is required."
+            ></dxi-validation-rule>
+            <dxo-lookup
+                [dataSource]="currency()"
+                valueExpr="id"
+                displayExpr="acronym"
+            ></dxo-lookup>
+        </dxi-column>
+        <dxo-toolbar>
+            <dxi-item location="before">
+                <dx-button
+                    (onClick)="createInbound()"
+                    width="100"
+                    [disabled]="transactions.length === 0"
+                    text="Salvar"
+                    >
+                </dx-button>
+            </dxi-item>
+            <dxi-item location="before">
+                <dx-button
+                    width="100"
+                    (onClick)="cancel()"
+                    text="Cancelar">
+                </dx-button>
+            </dxi-item>
+            <dxi-item location="after" name="addRowButton">
+            </dxi-item>
+          </dxo-toolbar>
+    </dx-data-grid>
+</div>
